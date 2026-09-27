@@ -1371,7 +1371,7 @@ pub const IM_TYPE_INTERPOLATE: &[u8; 12] = b"interpolate\0";
 pub const IM_MAX_ARGS: u32 = 1000;
 pub const VIPS_SAVEABLE_LAST: u32 = 99;
 pub type wchar_t = ::std::os::raw::c_uint;
-pub type size_t = ::std::os::raw::c_ulong;
+pub type size_t = u64;
 unsafe extern "C" {
     pub fn __flt_rounds() -> ::std::os::raw::c_int;
 }
@@ -1381,14 +1381,17 @@ pub type gint16 = ::std::os::raw::c_short;
 pub type guint16 = ::std::os::raw::c_ushort;
 pub type gint32 = ::std::os::raw::c_int;
 pub type guint32 = ::std::os::raw::c_uint;
-pub type gint64 = ::std::os::raw::c_long;
-pub type guint64 = ::std::os::raw::c_ulong;
-pub type gssize = ::std::os::raw::c_long;
-pub type gsize = ::std::os::raw::c_ulong;
+pub type gint64 = i64;
+pub type guint64 = u64;
+pub type gssize = i64;
+pub type gsize = u64;
 pub type goffset = gint64;
-pub type gintptr = ::std::os::raw::c_long;
-pub type guintptr = ::std::os::raw::c_ulong;
+pub type gintptr = i64;
+pub type guintptr = u64;
 pub type GPid = ::std::os::raw::c_int;
+#[cfg(target_os = "windows")]
+pub type time_t = i64;
+#[cfg(not(target_os = "windows"))]
 pub type time_t = ::std::os::raw::c_long;
 pub type timer_t = *mut ::std::os::raw::c_void;
 pub type clockid_t = ::std::os::raw::c_int;
@@ -1400,6 +1403,7 @@ pub struct timespec {
     pub tv_nsec: ::std::os::raw::c_long,
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of timespec"][::std::mem::size_of::<timespec>() - 16usize];
     ["Alignment of timespec"][::std::mem::align_of::<timespec>() - 8usize];
@@ -1429,6 +1433,7 @@ pub struct tm {
     pub tm_zone: *const ::std::os::raw::c_char,
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of tm"][::std::mem::size_of::<tm>() - 56usize];
     ["Alignment of tm"][::std::mem::align_of::<tm>() - 8usize];
@@ -1516,6 +1521,7 @@ pub struct itimerspec {
     pub it_value: timespec,
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of itimerspec"][::std::mem::size_of::<itimerspec>() - 32usize];
     ["Alignment of itimerspec"][::std::mem::align_of::<itimerspec>() - 8usize];
@@ -1648,6 +1654,7 @@ pub struct _GFloatIEEE754__bindgen_ty_1 {
     pub _bitfield_1: __BindgenBitfieldUnit<[u8; 4usize]>,
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of _GFloatIEEE754__bindgen_ty_1"]
         [::std::mem::size_of::<_GFloatIEEE754__bindgen_ty_1>() - 4usize];
@@ -1777,6 +1784,7 @@ impl _GFloatIEEE754__bindgen_ty_1 {
     }
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of _GFloatIEEE754"][::std::mem::size_of::<_GFloatIEEE754>() - 4usize];
     ["Alignment of _GFloatIEEE754"][::std::mem::align_of::<_GFloatIEEE754>() - 4usize];
@@ -1802,6 +1810,7 @@ pub struct _GDoubleIEEE754__bindgen_ty_1 {
     pub _bitfield_1: __BindgenBitfieldUnit<[u8; 8usize]>,
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of _GDoubleIEEE754__bindgen_ty_1"]
         [::std::mem::size_of::<_GDoubleIEEE754__bindgen_ty_1>() - 8usize];
@@ -1969,6 +1978,7 @@ impl _GDoubleIEEE754__bindgen_ty_1 {
     }
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of _GDoubleIEEE754"][::std::mem::size_of::<_GDoubleIEEE754>() - 8usize];
     ["Alignment of _GDoubleIEEE754"][::std::mem::align_of::<_GDoubleIEEE754>() - 8usize];
@@ -1990,6 +2000,7 @@ pub struct _GTimeVal {
     pub tv_usec: glong,
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of _GTimeVal"][::std::mem::size_of::<_GTimeVal>() - 16usize];
     ["Alignment of _GTimeVal"][::std::mem::align_of::<_GTimeVal>() - 8usize];
@@ -2314,6 +2325,7 @@ pub struct _GArray {
     pub len: guint,
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of _GArray"][::std::mem::size_of::<_GArray>() - 16usize];
     ["Alignment of _GArray"][::std::mem::align_of::<_GArray>() - 8usize];
@@ -2327,6 +2339,7 @@ pub struct _GByteArray {
     pub len: guint,
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of _GByteArray"][::std::mem::size_of::<_GByteArray>() - 16usize];
     ["Alignment of _GByteArray"][::std::mem::align_of::<_GByteArray>() - 8usize];
@@ -2340,6 +2353,7 @@ pub struct _GPtrArray {
     pub len: guint,
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of _GPtrArray"][::std::mem::size_of::<_GPtrArray>() - 16usize];
     ["Alignment of _GPtrArray"][::std::mem::align_of::<_GPtrArray>() - 8usize];
@@ -2780,6 +2794,7 @@ pub struct _GError {
     pub message: *mut gchar,
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of _GError"][::std::mem::size_of::<_GError>() - 16usize];
     ["Alignment of _GError"][::std::mem::align_of::<_GError>() - 8usize];
@@ -2944,6 +2959,7 @@ pub struct _GDebugKey {
     pub value: guint,
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of _GDebugKey"][::std::mem::size_of::<_GDebugKey>() - 16usize];
     ["Alignment of _GDebugKey"][::std::mem::align_of::<_GDebugKey>() - 8usize];
@@ -3155,6 +3171,7 @@ pub struct div_t {
     pub rem: ::std::os::raw::c_int,
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of div_t"][::std::mem::size_of::<div_t>() - 8usize];
     ["Alignment of div_t"][::std::mem::align_of::<div_t>() - 4usize];
@@ -3168,6 +3185,7 @@ pub struct ldiv_t {
     pub rem: ::std::os::raw::c_long,
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of ldiv_t"][::std::mem::size_of::<ldiv_t>() - 16usize];
     ["Alignment of ldiv_t"][::std::mem::align_of::<ldiv_t>() - 8usize];
@@ -3181,6 +3199,7 @@ pub struct lldiv_t {
     pub rem: ::std::os::raw::c_longlong,
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of lldiv_t"][::std::mem::size_of::<lldiv_t>() - 16usize];
     ["Alignment of lldiv_t"][::std::mem::align_of::<lldiv_t>() - 8usize];
@@ -3414,6 +3433,7 @@ pub union _GMutex {
     pub i: [guint; 2usize],
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of _GMutex"][::std::mem::size_of::<_GMutex>() - 8usize];
     ["Alignment of _GMutex"][::std::mem::align_of::<_GMutex>() - 8usize];
@@ -3432,6 +3452,7 @@ pub struct _GRWLock {
     pub i: [guint; 2usize],
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of _GRWLock"][::std::mem::size_of::<_GRWLock>() - 16usize];
     ["Alignment of _GRWLock"][::std::mem::align_of::<_GRWLock>() - 8usize];
@@ -3445,6 +3466,7 @@ pub struct _GCond {
     pub i: [guint; 2usize],
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of _GCond"][::std::mem::size_of::<_GCond>() - 16usize];
     ["Alignment of _GCond"][::std::mem::align_of::<_GCond>() - 8usize];
@@ -3458,6 +3480,7 @@ pub struct _GRecMutex {
     pub i: [guint; 2usize],
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of _GRecMutex"][::std::mem::size_of::<_GRecMutex>() - 16usize];
     ["Alignment of _GRecMutex"][::std::mem::align_of::<_GRecMutex>() - 8usize];
@@ -3472,6 +3495,7 @@ pub struct _GPrivate {
     pub future: [gpointer; 2usize],
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of _GPrivate"][::std::mem::size_of::<_GPrivate>() - 32usize];
     ["Alignment of _GPrivate"][::std::mem::align_of::<_GPrivate>() - 8usize];
@@ -3490,6 +3514,7 @@ pub struct _GOnce {
     pub retval: gpointer,
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of _GOnce"][::std::mem::size_of::<_GOnce>() - 16usize];
     ["Alignment of _GOnce"][::std::mem::align_of::<_GOnce>() - 8usize];
@@ -3754,6 +3779,7 @@ pub struct __sigset_t {
     pub __bits: [::std::os::raw::c_ulong; 16usize],
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of __sigset_t"][::std::mem::size_of::<__sigset_t>() - 128usize];
     ["Alignment of __sigset_t"][::std::mem::align_of::<__sigset_t>() - 8usize];
@@ -3773,6 +3799,7 @@ pub union pthread_attr_t__bindgen_ty_1 {
     pub __s: [::std::os::raw::c_ulong; 7usize],
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of pthread_attr_t__bindgen_ty_1"]
         [::std::mem::size_of::<pthread_attr_t__bindgen_ty_1>() - 56usize];
@@ -3791,6 +3818,7 @@ impl ::std::fmt::Debug for pthread_attr_t__bindgen_ty_1 {
     }
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of pthread_attr_t"][::std::mem::size_of::<pthread_attr_t>() - 56usize];
     ["Alignment of pthread_attr_t"][::std::mem::align_of::<pthread_attr_t>() - 8usize];
@@ -3813,6 +3841,7 @@ pub struct fpregset_t {
     pub fpcr: ::std::os::raw::c_uint,
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of fpregset_t"][::std::mem::size_of::<fpregset_t>() - 528usize];
     ["Alignment of fpregset_t"][::std::mem::align_of::<fpregset_t>() - 16usize];
@@ -3833,6 +3862,7 @@ pub struct sigcontext {
     pub __reserved: [u128; 256usize],
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of sigcontext"][::std::mem::size_of::<sigcontext>() - 4384usize];
     ["Alignment of sigcontext"][::std::mem::align_of::<sigcontext>() - 16usize];
@@ -3853,6 +3883,7 @@ pub struct _aarch64_ctx {
     pub size: ::std::os::raw::c_uint,
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of _aarch64_ctx"][::std::mem::size_of::<_aarch64_ctx>() - 8usize];
     ["Alignment of _aarch64_ctx"][::std::mem::align_of::<_aarch64_ctx>() - 4usize];
@@ -3869,6 +3900,7 @@ pub struct fpsimd_context {
     pub vregs: [__uint128_t; 32usize],
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of fpsimd_context"][::std::mem::size_of::<fpsimd_context>() - 528usize];
     ["Alignment of fpsimd_context"][::std::mem::align_of::<fpsimd_context>() - 16usize];
@@ -3888,6 +3920,7 @@ pub struct esr_context {
     pub esr: ::std::os::raw::c_ulong,
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of esr_context"][::std::mem::size_of::<esr_context>() - 16usize];
     ["Alignment of esr_context"][::std::mem::align_of::<esr_context>() - 8usize];
@@ -3903,6 +3936,7 @@ pub struct extra_context {
     pub __reserved: [::std::os::raw::c_uint; 3usize],
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of extra_context"][::std::mem::size_of::<extra_context>() - 32usize];
     ["Alignment of extra_context"][::std::mem::align_of::<extra_context>() - 8usize];
@@ -3921,6 +3955,7 @@ pub struct sve_context {
     pub __reserved: [::std::os::raw::c_ushort; 3usize],
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of sve_context"][::std::mem::size_of::<sve_context>() - 16usize];
     ["Alignment of sve_context"][::std::mem::align_of::<sve_context>() - 4usize];
@@ -3937,6 +3972,7 @@ pub struct sigaltstack {
     pub ss_size: size_t,
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of sigaltstack"][::std::mem::size_of::<sigaltstack>() - 24usize];
     ["Alignment of sigaltstack"][::std::mem::align_of::<sigaltstack>() - 8usize];
@@ -3958,6 +3994,7 @@ pub struct __ucontext {
     pub uc_mcontext: mcontext_t,
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of __ucontext"][::std::mem::size_of::<__ucontext>() - 4560usize];
     ["Alignment of __ucontext"][::std::mem::align_of::<__ucontext>() - 16usize];
@@ -3979,6 +4016,7 @@ pub union sigval {
     pub sival_ptr: *mut ::std::os::raw::c_void,
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of sigval"][::std::mem::size_of::<sigval>() - 8usize];
     ["Alignment of sigval"][::std::mem::align_of::<sigval>() - 8usize];
@@ -4026,6 +4064,7 @@ pub struct siginfo_t__bindgen_ty_1__bindgen_ty_1__bindgen_ty_1__bindgen_ty_1 {
     pub si_uid: uid_t,
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of siginfo_t__bindgen_ty_1__bindgen_ty_1__bindgen_ty_1__bindgen_ty_1"]
         [::std::mem::size_of::<siginfo_t__bindgen_ty_1__bindgen_ty_1__bindgen_ty_1__bindgen_ty_1>(
@@ -4051,6 +4090,7 @@ pub struct siginfo_t__bindgen_ty_1__bindgen_ty_1__bindgen_ty_1__bindgen_ty_2 {
     pub si_overrun: ::std::os::raw::c_int,
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of siginfo_t__bindgen_ty_1__bindgen_ty_1__bindgen_ty_1__bindgen_ty_2"]
         [::std::mem::size_of::<siginfo_t__bindgen_ty_1__bindgen_ty_1__bindgen_ty_1__bindgen_ty_2>(
@@ -4072,6 +4112,7 @@ const _: () = {
     ) - 4usize];
 };
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of siginfo_t__bindgen_ty_1__bindgen_ty_1__bindgen_ty_1"]
         [::std::mem::size_of::<siginfo_t__bindgen_ty_1__bindgen_ty_1__bindgen_ty_1>() - 8usize];
@@ -4108,6 +4149,7 @@ pub struct siginfo_t__bindgen_ty_1__bindgen_ty_1__bindgen_ty_2__bindgen_ty_1 {
     pub si_stime: clock_t,
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of siginfo_t__bindgen_ty_1__bindgen_ty_1__bindgen_ty_2__bindgen_ty_1"]
         [::std::mem::size_of::<siginfo_t__bindgen_ty_1__bindgen_ty_1__bindgen_ty_2__bindgen_ty_1>(
@@ -4135,6 +4177,7 @@ const _: () = {
     ) - 16usize];
 };
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of siginfo_t__bindgen_ty_1__bindgen_ty_1__bindgen_ty_2"]
         [::std::mem::size_of::<siginfo_t__bindgen_ty_1__bindgen_ty_1__bindgen_ty_2>() - 24usize];
@@ -4158,6 +4201,7 @@ impl ::std::fmt::Debug for siginfo_t__bindgen_ty_1__bindgen_ty_1__bindgen_ty_2 {
     }
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of siginfo_t__bindgen_ty_1__bindgen_ty_1"]
         [::std::mem::size_of::<siginfo_t__bindgen_ty_1__bindgen_ty_1>() - 32usize];
@@ -4197,6 +4241,7 @@ pub struct siginfo_t__bindgen_ty_1__bindgen_ty_2__bindgen_ty_1__bindgen_ty_1 {
     pub si_upper: *mut ::std::os::raw::c_void,
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of siginfo_t__bindgen_ty_1__bindgen_ty_2__bindgen_ty_1__bindgen_ty_1"]
         [::std::mem::size_of::<siginfo_t__bindgen_ty_1__bindgen_ty_2__bindgen_ty_1__bindgen_ty_1>(
@@ -4218,6 +4263,7 @@ const _: () = {
     ) - 8usize];
 };
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of siginfo_t__bindgen_ty_1__bindgen_ty_2__bindgen_ty_1"]
         [::std::mem::size_of::<siginfo_t__bindgen_ty_1__bindgen_ty_2__bindgen_ty_1>() - 16usize];
@@ -4242,6 +4288,7 @@ impl ::std::fmt::Debug for siginfo_t__bindgen_ty_1__bindgen_ty_2__bindgen_ty_1 {
     }
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of siginfo_t__bindgen_ty_1__bindgen_ty_2"]
         [::std::mem::size_of::<siginfo_t__bindgen_ty_1__bindgen_ty_2>() - 32usize];
@@ -4270,6 +4317,7 @@ pub struct siginfo_t__bindgen_ty_1__bindgen_ty_3 {
     pub si_fd: ::std::os::raw::c_int,
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of siginfo_t__bindgen_ty_1__bindgen_ty_3"]
         [::std::mem::size_of::<siginfo_t__bindgen_ty_1__bindgen_ty_3>() - 16usize];
@@ -4288,6 +4336,7 @@ pub struct siginfo_t__bindgen_ty_1__bindgen_ty_4 {
     pub si_arch: ::std::os::raw::c_uint,
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of siginfo_t__bindgen_ty_1__bindgen_ty_4"]
         [::std::mem::size_of::<siginfo_t__bindgen_ty_1__bindgen_ty_4>() - 16usize];
@@ -4301,6 +4350,7 @@ const _: () = {
         [::std::mem::offset_of!(siginfo_t__bindgen_ty_1__bindgen_ty_4, si_arch) - 12usize];
 };
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of siginfo_t__bindgen_ty_1"]
         [::std::mem::size_of::<siginfo_t__bindgen_ty_1>() - 112usize];
@@ -4323,6 +4373,7 @@ impl ::std::fmt::Debug for siginfo_t__bindgen_ty_1 {
     }
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of siginfo_t"][::std::mem::size_of::<siginfo_t>() - 128usize];
     ["Alignment of siginfo_t"][::std::mem::align_of::<siginfo_t>() - 8usize];
@@ -4362,6 +4413,7 @@ pub union sigaction__bindgen_ty_1 {
     >,
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of sigaction__bindgen_ty_1"][::std::mem::size_of::<sigaction__bindgen_ty_1>() - 8usize];
     ["Alignment of sigaction__bindgen_ty_1"]
@@ -4377,6 +4429,7 @@ impl ::std::fmt::Debug for sigaction__bindgen_ty_1 {
     }
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of sigaction"][::std::mem::size_of::<sigaction>() - 152usize];
     ["Alignment of sigaction"][::std::mem::align_of::<sigaction>() - 8usize];
@@ -4419,6 +4472,7 @@ pub struct sigevent__bindgen_ty_1__bindgen_ty_1 {
     pub sigev_notify_attributes: *mut pthread_attr_t,
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of sigevent__bindgen_ty_1__bindgen_ty_1"]
         [::std::mem::size_of::<sigevent__bindgen_ty_1__bindgen_ty_1>() - 16usize];
@@ -4434,6 +4488,7 @@ const _: () = {
     ) - 8usize];
 };
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of sigevent__bindgen_ty_1"][::std::mem::size_of::<sigevent__bindgen_ty_1>() - 48usize];
     ["Alignment of sigevent__bindgen_ty_1"]
@@ -4451,6 +4506,7 @@ impl ::std::fmt::Debug for sigevent__bindgen_ty_1 {
     }
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of sigevent"][::std::mem::size_of::<sigevent>() - 64usize];
     ["Alignment of sigevent"][::std::mem::align_of::<sigevent>() - 8usize];
@@ -5719,6 +5775,7 @@ pub struct _GDate {
     pub _bitfield_1: __BindgenBitfieldUnit<[u8; 8usize]>,
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of _GDate"][::std::mem::size_of::<_GDate>() - 8usize];
     ["Alignment of _GDate"][::std::mem::align_of::<_GDate>() - 4usize];
@@ -6130,6 +6187,7 @@ pub struct dirent {
     pub d_name: [::std::os::raw::c_char; 256usize],
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of dirent"][::std::mem::size_of::<dirent>() - 280usize];
     ["Alignment of dirent"][::std::mem::align_of::<dirent>() - 8usize];
@@ -6150,6 +6208,7 @@ pub struct posix_dent {
     pub d_name: __IncompleteArrayField<::std::os::raw::c_char>,
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of posix_dent"][::std::mem::size_of::<posix_dent>() - 24usize];
     ["Alignment of posix_dent"][::std::mem::align_of::<posix_dent>() - 8usize];
@@ -6524,6 +6583,7 @@ pub struct _GMemVTable {
         ::std::option::Option<unsafe extern "C" fn(mem: gpointer, n_bytes: gsize) -> gpointer>,
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of _GMemVTable"][::std::mem::size_of::<_GMemVTable>() - 48usize];
     ["Alignment of _GMemVTable"][::std::mem::align_of::<_GMemVTable>() - 8usize];
@@ -6579,6 +6639,7 @@ pub struct _GNode {
     pub children: *mut GNode,
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of _GNode"][::std::mem::size_of::<_GNode>() - 40usize];
     ["Alignment of _GNode"][::std::mem::align_of::<_GNode>() - 8usize];
@@ -6701,6 +6762,7 @@ pub struct _GList {
     pub prev: *mut GList,
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of _GList"][::std::mem::size_of::<_GList>() - 24usize];
     ["Alignment of _GList"][::std::mem::align_of::<_GList>() - 8usize];
@@ -6850,6 +6912,7 @@ pub struct _GHashTableIter {
     pub dummy6: gpointer,
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of _GHashTableIter"][::std::mem::size_of::<_GHashTableIter>() - 40usize];
     ["Alignment of _GHashTableIter"][::std::mem::align_of::<_GHashTableIter>() - 8usize];
@@ -7127,6 +7190,7 @@ pub struct _GHookList {
     pub dummy: [gpointer; 2usize],
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of _GHookList"][::std::mem::size_of::<_GHookList>() - 56usize];
     ["Alignment of _GHookList"][::std::mem::align_of::<_GHookList>() - 8usize];
@@ -7234,6 +7298,7 @@ pub struct _GHook {
     pub destroy: GDestroyNotify,
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of _GHook"][::std::mem::size_of::<_GHook>() - 64usize];
     ["Alignment of _GHook"][::std::mem::align_of::<_GHook>() - 8usize];
@@ -7378,6 +7443,7 @@ pub struct _GPollFD {
     pub revents: gushort,
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of _GPollFD"][::std::mem::size_of::<_GPollFD>() - 8usize];
     ["Alignment of _GPollFD"][::std::mem::align_of::<_GPollFD>() - 4usize];
@@ -7396,6 +7462,7 @@ pub struct _GSList {
     pub next: *mut GSList,
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of _GSList"][::std::mem::size_of::<_GSList>() - 16usize];
     ["Alignment of _GSList"][::std::mem::align_of::<_GSList>() - 8usize];
@@ -7571,6 +7638,7 @@ pub struct _GSource {
     pub priv_: *mut GSourcePrivate,
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of _GSource"][::std::mem::size_of::<_GSource>() - 96usize];
     ["Alignment of _GSource"][::std::mem::align_of::<_GSource>() - 8usize];
@@ -7606,6 +7674,7 @@ pub struct _GSourceCallbackFuncs {
     >,
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of _GSourceCallbackFuncs"][::std::mem::size_of::<_GSourceCallbackFuncs>() - 24usize];
     ["Alignment of _GSourceCallbackFuncs"]
@@ -7643,6 +7712,7 @@ pub struct _GSourceFuncs {
     pub closure_marshal: GSourceDummyMarshal,
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of _GSourceFuncs"][::std::mem::size_of::<_GSourceFuncs>() - 48usize];
     ["Alignment of _GSourceFuncs"][::std::mem::align_of::<_GSourceFuncs>() - 8usize];
@@ -8805,6 +8875,7 @@ pub struct _GString {
     pub allocated_len: gsize,
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of _GString"][::std::mem::size_of::<_GString>() - 24usize];
     ["Alignment of _GString"][::std::mem::align_of::<_GString>() - 8usize];
@@ -9014,6 +9085,7 @@ pub struct _GIOChannel {
     pub reserved2: gpointer,
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of _GIOChannel"][::std::mem::size_of::<_GIOChannel>() - 112usize];
     ["Alignment of _GIOChannel"][::std::mem::align_of::<_GIOChannel>() - 8usize];
@@ -9335,6 +9407,7 @@ pub struct _GIOFuncs {
         ::std::option::Option<unsafe extern "C" fn(channel: *mut GIOChannel) -> GIOFlags>,
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of _GIOFuncs"][::std::mem::size_of::<_GIOFuncs>() - 64usize];
     ["Alignment of _GIOFuncs"][::std::mem::align_of::<_GIOFuncs>() - 8usize];
@@ -10052,6 +10125,7 @@ pub struct _GMarkupParser {
     >,
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of _GMarkupParser"][::std::mem::size_of::<_GMarkupParser>() - 40usize];
     ["Alignment of _GMarkupParser"][::std::mem::align_of::<_GMarkupParser>() - 8usize];
@@ -10589,6 +10663,7 @@ pub struct _GVariantIter {
     pub x: [guintptr; 16usize],
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of _GVariantIter"][::std::mem::size_of::<_GVariantIter>() - 128usize];
     ["Alignment of _GVariantIter"][::std::mem::align_of::<_GVariantIter>() - 8usize];
@@ -10646,6 +10721,7 @@ pub struct _GVariantBuilder__bindgen_ty_1__bindgen_ty_1 {
     pub y: [guintptr; 14usize],
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of _GVariantBuilder__bindgen_ty_1__bindgen_ty_1"]
         [::std::mem::size_of::<_GVariantBuilder__bindgen_ty_1__bindgen_ty_1>() - 128usize];
@@ -10661,6 +10737,7 @@ const _: () = {
         [::std::mem::offset_of!(_GVariantBuilder__bindgen_ty_1__bindgen_ty_1, y) - 16usize];
 };
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of _GVariantBuilder__bindgen_ty_1"]
         [::std::mem::size_of::<_GVariantBuilder__bindgen_ty_1>() - 128usize];
@@ -10677,6 +10754,7 @@ impl ::std::fmt::Debug for _GVariantBuilder__bindgen_ty_1 {
     }
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of _GVariantBuilder"][::std::mem::size_of::<_GVariantBuilder>() - 128usize];
     ["Alignment of _GVariantBuilder"][::std::mem::align_of::<_GVariantBuilder>() - 8usize];
@@ -10822,6 +10900,7 @@ pub struct _GVariantDict__bindgen_ty_1__bindgen_ty_1 {
     pub y: [guintptr; 14usize],
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of _GVariantDict__bindgen_ty_1__bindgen_ty_1"]
         [::std::mem::size_of::<_GVariantDict__bindgen_ty_1__bindgen_ty_1>() - 128usize];
@@ -10835,6 +10914,7 @@ const _: () = {
         [::std::mem::offset_of!(_GVariantDict__bindgen_ty_1__bindgen_ty_1, y) - 16usize];
 };
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of _GVariantDict__bindgen_ty_1"]
         [::std::mem::size_of::<_GVariantDict__bindgen_ty_1>() - 128usize];
@@ -10851,6 +10931,7 @@ impl ::std::fmt::Debug for _GVariantDict__bindgen_ty_1 {
     }
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of _GVariantDict"][::std::mem::size_of::<_GVariantDict>() - 128usize];
     ["Alignment of _GVariantDict"][::std::mem::align_of::<_GVariantDict>() - 8usize];
@@ -11002,6 +11083,7 @@ pub struct _GLogField {
     pub length: gssize,
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of _GLogField"][::std::mem::size_of::<_GLogField>() - 24usize];
     ["Alignment of _GLogField"][::std::mem::align_of::<_GLogField>() - 8usize];
@@ -11238,6 +11320,7 @@ pub struct _GOptionEntry {
     pub arg_description: *const gchar,
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of _GOptionEntry"][::std::mem::size_of::<_GOptionEntry>() - 48usize];
     ["Alignment of _GOptionEntry"][::std::mem::align_of::<_GOptionEntry>() - 8usize];
@@ -11398,6 +11481,7 @@ pub struct _GPathBuf {
     pub dummy: [gpointer; 8usize],
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of _GPathBuf"][::std::mem::size_of::<_GPathBuf>() - 64usize];
     ["Alignment of _GPathBuf"][::std::mem::align_of::<_GPathBuf>() - 8usize];
@@ -11533,6 +11617,7 @@ pub struct _GQueue {
     pub length: guint,
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of _GQueue"][::std::mem::size_of::<_GQueue>() - 24usize];
     ["Alignment of _GQueue"][::std::mem::align_of::<_GQueue>() - 8usize];
@@ -12221,6 +12306,7 @@ pub union _GTokenValue {
     pub v_error: guint,
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of _GTokenValue"][::std::mem::size_of::<_GTokenValue>() - 8usize];
     ["Alignment of _GTokenValue"][::std::mem::align_of::<_GTokenValue>() - 8usize];
@@ -12264,6 +12350,7 @@ pub struct _GScannerConfig {
     pub padding_dummy: guint,
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of _GScannerConfig"][::std::mem::size_of::<_GScannerConfig>() - 40usize];
     ["Alignment of _GScannerConfig"][::std::mem::align_of::<_GScannerConfig>() - 8usize];
@@ -13149,6 +13236,7 @@ pub struct _GScanner {
     pub msg_handler: GScannerMsgFunc,
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of _GScanner"][::std::mem::size_of::<_GScanner>() - 144usize];
     ["Alignment of _GScanner"][::std::mem::align_of::<_GScanner>() - 8usize];
@@ -14072,6 +14160,7 @@ pub struct GTestConfig {
     pub test_undefined: gboolean,
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of GTestConfig"][::std::mem::size_of::<GTestConfig>() - 24usize];
     ["Alignment of GTestConfig"][::std::mem::align_of::<GTestConfig>() - 4usize];
@@ -14119,6 +14208,7 @@ pub struct GTestLogMsg {
     pub nums: *mut u128,
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of GTestLogMsg"][::std::mem::size_of::<GTestLogMsg>() - 32usize];
     ["Alignment of GTestLogMsg"][::std::mem::align_of::<GTestLogMsg>() - 8usize];
@@ -14138,6 +14228,7 @@ pub struct GTestLogBuffer {
     pub msgs: *mut GSList,
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of GTestLogBuffer"][::std::mem::size_of::<GTestLogBuffer>() - 16usize];
     ["Alignment of GTestLogBuffer"][::std::mem::align_of::<GTestLogBuffer>() - 8usize];
@@ -14223,6 +14314,7 @@ pub struct _GThreadPool {
     pub exclusive: gboolean,
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of _GThreadPool"][::std::mem::size_of::<_GThreadPool>() - 24usize];
     ["Alignment of _GThreadPool"][::std::mem::align_of::<_GThreadPool>() - 8usize];
@@ -14354,6 +14446,7 @@ pub struct _GTrashStack {
     pub next: *mut GTrashStack,
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of _GTrashStack"][::std::mem::size_of::<_GTrashStack>() - 8usize];
     ["Alignment of _GTrashStack"][::std::mem::align_of::<_GTrashStack>() - 8usize];
@@ -14725,6 +14818,7 @@ pub struct _GUriParamsIter {
     pub dummy3: [guint8; 256usize],
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of _GUriParamsIter"][::std::mem::size_of::<_GUriParamsIter>() - 280usize];
     ["Alignment of _GUriParamsIter"][::std::mem::align_of::<_GUriParamsIter>() - 8usize];
@@ -14959,6 +15053,7 @@ pub struct _GCompletion {
     pub strncmp_func: GCompletionStrncmpFunc,
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of _GCompletion"][::std::mem::size_of::<_GCompletion>() - 40usize];
     ["Alignment of _GCompletion"][::std::mem::align_of::<_GCompletion>() - 8usize];
@@ -15015,6 +15110,7 @@ pub struct _GTuples {
     pub len: guint,
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of _GTuples"][::std::mem::size_of::<_GTuples>() - 4usize];
     ["Alignment of _GTuples"][::std::mem::align_of::<_GTuples>() - 4usize];
@@ -15076,6 +15172,7 @@ pub struct _GThread {
     pub priority: GThreadPriority,
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of _GThread"][::std::mem::size_of::<_GThread>() - 24usize];
     ["Alignment of _GThread"][::std::mem::align_of::<_GThread>() - 8usize];
@@ -15135,6 +15232,7 @@ pub struct _GThreadFunctions {
     >,
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of _GThreadFunctions"][::std::mem::size_of::<_GThreadFunctions>() - 168usize];
     ["Alignment of _GThreadFunctions"][::std::mem::align_of::<_GThreadFunctions>() - 8usize];
@@ -15238,6 +15336,7 @@ pub struct pthread_mutexattr_t {
     pub __attr: ::std::os::raw::c_uint,
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of pthread_mutexattr_t"][::std::mem::size_of::<pthread_mutexattr_t>() - 4usize];
     ["Alignment of pthread_mutexattr_t"][::std::mem::align_of::<pthread_mutexattr_t>() - 4usize];
@@ -15250,6 +15349,7 @@ pub struct pthread_condattr_t {
     pub __attr: ::std::os::raw::c_uint,
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of pthread_condattr_t"][::std::mem::size_of::<pthread_condattr_t>() - 4usize];
     ["Alignment of pthread_condattr_t"][::std::mem::align_of::<pthread_condattr_t>() - 4usize];
@@ -15262,6 +15362,7 @@ pub struct pthread_barrierattr_t {
     pub __attr: ::std::os::raw::c_uint,
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of pthread_barrierattr_t"][::std::mem::size_of::<pthread_barrierattr_t>() - 4usize];
     ["Alignment of pthread_barrierattr_t"]
@@ -15275,6 +15376,7 @@ pub struct pthread_rwlockattr_t {
     pub __attr: [::std::os::raw::c_uint; 2usize],
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of pthread_rwlockattr_t"][::std::mem::size_of::<pthread_rwlockattr_t>() - 8usize];
     ["Alignment of pthread_rwlockattr_t"][::std::mem::align_of::<pthread_rwlockattr_t>() - 4usize];
@@ -15294,6 +15396,7 @@ pub union pthread_mutex_t__bindgen_ty_1 {
     pub __p: [*mut ::std::os::raw::c_void; 5usize],
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of pthread_mutex_t__bindgen_ty_1"]
         [::std::mem::size_of::<pthread_mutex_t__bindgen_ty_1>() - 40usize];
@@ -15312,6 +15415,7 @@ impl ::std::fmt::Debug for pthread_mutex_t__bindgen_ty_1 {
     }
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of pthread_mutex_t"][::std::mem::size_of::<pthread_mutex_t>() - 40usize];
     ["Alignment of pthread_mutex_t"][::std::mem::align_of::<pthread_mutex_t>() - 8usize];
@@ -15336,6 +15440,7 @@ pub union pthread_cond_t__bindgen_ty_1 {
     pub __p: [*mut ::std::os::raw::c_void; 6usize],
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of pthread_cond_t__bindgen_ty_1"]
         [::std::mem::size_of::<pthread_cond_t__bindgen_ty_1>() - 48usize];
@@ -15354,6 +15459,7 @@ impl ::std::fmt::Debug for pthread_cond_t__bindgen_ty_1 {
     }
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of pthread_cond_t"][::std::mem::size_of::<pthread_cond_t>() - 48usize];
     ["Alignment of pthread_cond_t"][::std::mem::align_of::<pthread_cond_t>() - 8usize];
@@ -15377,6 +15483,7 @@ pub union pthread_rwlock_t__bindgen_ty_1 {
     pub __p: [*mut ::std::os::raw::c_void; 7usize],
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of pthread_rwlock_t__bindgen_ty_1"]
         [::std::mem::size_of::<pthread_rwlock_t__bindgen_ty_1>() - 56usize];
@@ -15395,6 +15502,7 @@ impl ::std::fmt::Debug for pthread_rwlock_t__bindgen_ty_1 {
     }
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of pthread_rwlock_t"][::std::mem::size_of::<pthread_rwlock_t>() - 56usize];
     ["Alignment of pthread_rwlock_t"][::std::mem::align_of::<pthread_rwlock_t>() - 8usize];
@@ -15419,6 +15527,7 @@ pub union pthread_barrier_t__bindgen_ty_1 {
     pub __p: [*mut ::std::os::raw::c_void; 4usize],
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of pthread_barrier_t__bindgen_ty_1"]
         [::std::mem::size_of::<pthread_barrier_t__bindgen_ty_1>() - 32usize];
@@ -15437,6 +15546,7 @@ impl ::std::fmt::Debug for pthread_barrier_t__bindgen_ty_1 {
     }
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of pthread_barrier_t"][::std::mem::size_of::<pthread_barrier_t>() - 32usize];
     ["Alignment of pthread_barrier_t"][::std::mem::align_of::<pthread_barrier_t>() - 8usize];
@@ -15468,6 +15578,7 @@ pub struct timeval {
     pub tv_usec: suseconds_t,
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of timeval"][::std::mem::size_of::<timeval>() - 16usize];
     ["Alignment of timeval"][::std::mem::align_of::<timeval>() - 8usize];
@@ -15481,6 +15592,7 @@ pub struct fd_set {
     pub fds_bits: [::std::os::raw::c_ulong; 16usize],
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of fd_set"][::std::mem::size_of::<fd_set>() - 128usize];
     ["Alignment of fd_set"][::std::mem::align_of::<fd_set>() - 8usize];
@@ -15520,6 +15632,7 @@ pub struct sched_param__bindgen_ty_1 {
     pub __reserved2: ::std::os::raw::c_long,
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of sched_param__bindgen_ty_1"]
         [::std::mem::size_of::<sched_param__bindgen_ty_1>() - 16usize];
@@ -15531,6 +15644,7 @@ const _: () = {
         [::std::mem::offset_of!(sched_param__bindgen_ty_1, __reserved2) - 8usize];
 };
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of sched_param"][::std::mem::size_of::<sched_param>() - 48usize];
     ["Alignment of sched_param"][::std::mem::align_of::<sched_param>() - 8usize];
@@ -16056,6 +16170,7 @@ pub struct __ptcb {
     pub __next: *mut __ptcb,
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of __ptcb"][::std::mem::size_of::<__ptcb>() - 24usize];
     ["Alignment of __ptcb"][::std::mem::align_of::<__ptcb>() - 8usize];
@@ -16080,6 +16195,7 @@ pub struct GStaticMutex {
     pub unused: pthread_mutex_t,
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of GStaticMutex"][::std::mem::size_of::<GStaticMutex>() - 48usize];
     ["Alignment of GStaticMutex"][::std::mem::align_of::<GStaticMutex>() - 8usize];
@@ -16120,6 +16236,7 @@ pub union _GStaticRecMutex__bindgen_ty_1 {
     pub dummy: gdouble,
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of _GStaticRecMutex__bindgen_ty_1"]
         [::std::mem::size_of::<_GStaticRecMutex__bindgen_ty_1>() - 8usize];
@@ -16136,6 +16253,7 @@ impl ::std::fmt::Debug for _GStaticRecMutex__bindgen_ty_1 {
     }
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of _GStaticRecMutex"][::std::mem::size_of::<_GStaticRecMutex>() - 64usize];
     ["Alignment of _GStaticRecMutex"][::std::mem::align_of::<_GStaticRecMutex>() - 8usize];
@@ -16189,6 +16307,7 @@ pub struct _GStaticRWLock {
     pub want_to_write: guint,
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of _GStaticRWLock"][::std::mem::size_of::<_GStaticRWLock>() - 80usize];
     ["Alignment of _GStaticRWLock"][::std::mem::align_of::<_GStaticRWLock>() - 8usize];
@@ -16256,6 +16375,7 @@ pub struct _GStaticPrivate {
     pub index: guint,
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of _GStaticPrivate"][::std::mem::size_of::<_GStaticPrivate>() - 4usize];
     ["Alignment of _GStaticPrivate"][::std::mem::align_of::<_GStaticPrivate>() - 4usize];
@@ -16535,6 +16655,7 @@ pub union _G_fpos64_t {
     pub __align: f64,
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of _G_fpos64_t"][::std::mem::size_of::<_G_fpos64_t>() - 16usize];
     ["Alignment of _G_fpos64_t"][::std::mem::align_of::<_G_fpos64_t>() - 8usize];
@@ -16989,6 +17110,7 @@ pub struct stat {
     pub __unused: [::std::os::raw::c_uint; 2usize],
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of stat"][::std::mem::size_of::<stat>() - 128usize];
     ["Alignment of stat"][::std::mem::align_of::<stat>() - 8usize];
@@ -17195,6 +17317,7 @@ pub struct _GTypeClass {
     pub g_type: GType,
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of _GTypeClass"][::std::mem::size_of::<_GTypeClass>() - 8usize];
     ["Alignment of _GTypeClass"][::std::mem::align_of::<_GTypeClass>() - 8usize];
@@ -17206,6 +17329,7 @@ pub struct _GTypeInstance {
     pub g_class: *mut GTypeClass,
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of _GTypeInstance"][::std::mem::size_of::<_GTypeInstance>() - 8usize];
     ["Alignment of _GTypeInstance"][::std::mem::align_of::<_GTypeInstance>() - 8usize];
@@ -17219,6 +17343,7 @@ pub struct _GTypeInterface {
     pub g_instance_type: GType,
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of _GTypeInterface"][::std::mem::size_of::<_GTypeInterface>() - 16usize];
     ["Alignment of _GTypeInterface"][::std::mem::align_of::<_GTypeInterface>() - 8usize];
@@ -17236,6 +17361,7 @@ pub struct _GTypeQuery {
     pub instance_size: guint,
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of _GTypeQuery"][::std::mem::size_of::<_GTypeQuery>() - 24usize];
     ["Alignment of _GTypeQuery"][::std::mem::align_of::<_GTypeQuery>() - 8usize];
@@ -17377,6 +17503,7 @@ pub struct _GTypeInfo {
     pub value_table: *const GTypeValueTable,
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of _GTypeInfo"][::std::mem::size_of::<_GTypeInfo>() - 72usize];
     ["Alignment of _GTypeInfo"][::std::mem::align_of::<_GTypeInfo>() - 8usize];
@@ -17407,6 +17534,7 @@ pub struct _GTypeFundamentalInfo {
     pub type_flags: GTypeFundamentalFlags,
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of _GTypeFundamentalInfo"][::std::mem::size_of::<_GTypeFundamentalInfo>() - 4usize];
     ["Alignment of _GTypeFundamentalInfo"]
@@ -17422,6 +17550,7 @@ pub struct _GInterfaceInfo {
     pub interface_data: gpointer,
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of _GInterfaceInfo"][::std::mem::size_of::<_GInterfaceInfo>() - 24usize];
     ["Alignment of _GInterfaceInfo"][::std::mem::align_of::<_GInterfaceInfo>() - 8usize];
@@ -17467,6 +17596,7 @@ pub struct _GTypeValueTable {
     pub lcopy_value: GTypeValueLCopyFunc,
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of _GTypeValueTable"][::std::mem::size_of::<_GTypeValueTable>() - 64usize];
     ["Alignment of _GTypeValueTable"][::std::mem::align_of::<_GTypeValueTable>() - 8usize];
@@ -17682,6 +17812,7 @@ pub union _GValue__bindgen_ty_1 {
     pub v_pointer: gpointer,
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of _GValue__bindgen_ty_1"][::std::mem::size_of::<_GValue__bindgen_ty_1>() - 8usize];
     ["Alignment of _GValue__bindgen_ty_1"]
@@ -17711,6 +17842,7 @@ impl ::std::fmt::Debug for _GValue__bindgen_ty_1 {
     }
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of _GValue"][::std::mem::size_of::<_GValue>() - 24usize];
     ["Alignment of _GValue"][::std::mem::align_of::<_GValue>() - 8usize];
@@ -17803,6 +17935,7 @@ pub struct _GParamSpec {
     pub param_id: guint,
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of _GParamSpec"][::std::mem::size_of::<_GParamSpec>() - 72usize];
     ["Alignment of _GParamSpec"][::std::mem::align_of::<_GParamSpec>() - 8usize];
@@ -17846,6 +17979,7 @@ pub struct _GParamSpecClass {
     pub dummy: [gpointer; 3usize],
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of _GParamSpecClass"][::std::mem::size_of::<_GParamSpecClass>() - 80usize];
     ["Alignment of _GParamSpecClass"][::std::mem::align_of::<_GParamSpecClass>() - 8usize];
@@ -17873,6 +18007,7 @@ pub struct _GParameter {
     pub value: GValue,
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of _GParameter"][::std::mem::size_of::<_GParameter>() - 32usize];
     ["Alignment of _GParameter"][::std::mem::align_of::<_GParameter>() - 8usize];
@@ -18000,6 +18135,7 @@ pub struct _GParamSpecTypeInfo {
     >,
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of _GParamSpecTypeInfo"][::std::mem::size_of::<_GParamSpecTypeInfo>() - 56usize];
     ["Alignment of _GParamSpecTypeInfo"][::std::mem::align_of::<_GParamSpecTypeInfo>() - 8usize];
@@ -18114,6 +18250,7 @@ pub struct _GClosureNotifyData {
     pub notify: GClosureNotify,
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of _GClosureNotifyData"][::std::mem::size_of::<_GClosureNotifyData>() - 16usize];
     ["Alignment of _GClosureNotifyData"][::std::mem::align_of::<_GClosureNotifyData>() - 8usize];
@@ -18141,6 +18278,7 @@ pub struct _GClosure {
     pub notifiers: *mut GClosureNotifyData,
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of _GClosure"][::std::mem::size_of::<_GClosure>() - 32usize];
     ["Alignment of _GClosure"][::std::mem::align_of::<_GClosure>() - 8usize];
@@ -18544,6 +18682,7 @@ pub struct _GCClosure {
     pub callback: gpointer,
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of _GCClosure"][::std::mem::size_of::<_GCClosure>() - 40usize];
     ["Alignment of _GCClosure"][::std::mem::align_of::<_GCClosure>() - 8usize];
@@ -19172,6 +19311,7 @@ pub struct _GSignalInvocationHint {
     pub run_type: GSignalFlags,
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of _GSignalInvocationHint"][::std::mem::size_of::<_GSignalInvocationHint>() - 12usize];
     ["Alignment of _GSignalInvocationHint"]
@@ -19195,6 +19335,7 @@ pub struct _GSignalQuery {
     pub param_types: *const GType,
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of _GSignalQuery"][::std::mem::size_of::<_GSignalQuery>() - 56usize];
     ["Alignment of _GSignalQuery"][::std::mem::align_of::<_GSignalQuery>() - 8usize];
@@ -19664,6 +19805,7 @@ pub struct _GObject {
     pub qdata: *mut GData,
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of _GObject"][::std::mem::size_of::<_GObject>() - 24usize];
     ["Alignment of _GObject"][::std::mem::align_of::<_GObject>() - 8usize];
@@ -19715,6 +19857,7 @@ pub struct _GObjectClass {
     pub pdummy: [gpointer; 3usize],
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of _GObjectClass"][::std::mem::size_of::<_GObjectClass>() - 136usize];
     ["Alignment of _GObjectClass"][::std::mem::align_of::<_GObjectClass>() - 8usize];
@@ -19756,6 +19899,7 @@ pub struct _GObjectConstructParam {
     pub value: *mut GValue,
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of _GObjectConstructParam"][::std::mem::size_of::<_GObjectConstructParam>() - 16usize];
     ["Alignment of _GObjectConstructParam"]
@@ -20080,6 +20224,7 @@ pub union GWeakRef__bindgen_ty_1 {
     pub p: gpointer,
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of GWeakRef__bindgen_ty_1"][::std::mem::size_of::<GWeakRef__bindgen_ty_1>() - 8usize];
     ["Alignment of GWeakRef__bindgen_ty_1"]
@@ -20093,6 +20238,7 @@ impl ::std::fmt::Debug for GWeakRef__bindgen_ty_1 {
     }
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of GWeakRef"][::std::mem::size_of::<GWeakRef>() - 8usize];
     ["Alignment of GWeakRef"][::std::mem::align_of::<GWeakRef>() - 8usize];
@@ -20262,6 +20408,7 @@ pub struct _GEnumClass {
     pub values: *mut GEnumValue,
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of _GEnumClass"][::std::mem::size_of::<_GEnumClass>() - 32usize];
     ["Alignment of _GEnumClass"][::std::mem::align_of::<_GEnumClass>() - 8usize];
@@ -20284,6 +20431,7 @@ pub struct _GFlagsClass {
     pub values: *mut GFlagsValue,
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of _GFlagsClass"][::std::mem::size_of::<_GFlagsClass>() - 24usize];
     ["Alignment of _GFlagsClass"][::std::mem::align_of::<_GFlagsClass>() - 8usize];
@@ -20303,6 +20451,7 @@ pub struct _GEnumValue {
     pub value_nick: *const gchar,
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of _GEnumValue"][::std::mem::size_of::<_GEnumValue>() - 24usize];
     ["Alignment of _GEnumValue"][::std::mem::align_of::<_GEnumValue>() - 8usize];
@@ -20320,6 +20469,7 @@ pub struct _GFlagsValue {
     pub value_nick: *const gchar,
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of _GFlagsValue"][::std::mem::size_of::<_GFlagsValue>() - 24usize];
     ["Alignment of _GFlagsValue"][::std::mem::align_of::<_GFlagsValue>() - 8usize];
@@ -20448,6 +20598,7 @@ pub struct _GParamSpecChar {
     pub default_value: gint8,
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of _GParamSpecChar"][::std::mem::size_of::<_GParamSpecChar>() - 80usize];
     ["Alignment of _GParamSpecChar"][::std::mem::align_of::<_GParamSpecChar>() - 8usize];
@@ -20469,6 +20620,7 @@ pub struct _GParamSpecUChar {
     pub default_value: guint8,
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of _GParamSpecUChar"][::std::mem::size_of::<_GParamSpecUChar>() - 80usize];
     ["Alignment of _GParamSpecUChar"][::std::mem::align_of::<_GParamSpecUChar>() - 8usize];
@@ -20488,6 +20640,7 @@ pub struct _GParamSpecBoolean {
     pub default_value: gboolean,
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of _GParamSpecBoolean"][::std::mem::size_of::<_GParamSpecBoolean>() - 80usize];
     ["Alignment of _GParamSpecBoolean"][::std::mem::align_of::<_GParamSpecBoolean>() - 8usize];
@@ -20505,6 +20658,7 @@ pub struct _GParamSpecInt {
     pub default_value: gint,
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of _GParamSpecInt"][::std::mem::size_of::<_GParamSpecInt>() - 88usize];
     ["Alignment of _GParamSpecInt"][::std::mem::align_of::<_GParamSpecInt>() - 8usize];
@@ -20526,6 +20680,7 @@ pub struct _GParamSpecUInt {
     pub default_value: guint,
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of _GParamSpecUInt"][::std::mem::size_of::<_GParamSpecUInt>() - 88usize];
     ["Alignment of _GParamSpecUInt"][::std::mem::align_of::<_GParamSpecUInt>() - 8usize];
@@ -20547,6 +20702,7 @@ pub struct _GParamSpecLong {
     pub default_value: glong,
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of _GParamSpecLong"][::std::mem::size_of::<_GParamSpecLong>() - 96usize];
     ["Alignment of _GParamSpecLong"][::std::mem::align_of::<_GParamSpecLong>() - 8usize];
@@ -20568,6 +20724,7 @@ pub struct _GParamSpecULong {
     pub default_value: gulong,
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of _GParamSpecULong"][::std::mem::size_of::<_GParamSpecULong>() - 96usize];
     ["Alignment of _GParamSpecULong"][::std::mem::align_of::<_GParamSpecULong>() - 8usize];
@@ -20589,6 +20746,7 @@ pub struct _GParamSpecInt64 {
     pub default_value: gint64,
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of _GParamSpecInt64"][::std::mem::size_of::<_GParamSpecInt64>() - 96usize];
     ["Alignment of _GParamSpecInt64"][::std::mem::align_of::<_GParamSpecInt64>() - 8usize];
@@ -20610,6 +20768,7 @@ pub struct _GParamSpecUInt64 {
     pub default_value: guint64,
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of _GParamSpecUInt64"][::std::mem::size_of::<_GParamSpecUInt64>() - 96usize];
     ["Alignment of _GParamSpecUInt64"][::std::mem::align_of::<_GParamSpecUInt64>() - 8usize];
@@ -20629,6 +20788,7 @@ pub struct _GParamSpecUnichar {
     pub default_value: gunichar,
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of _GParamSpecUnichar"][::std::mem::size_of::<_GParamSpecUnichar>() - 80usize];
     ["Alignment of _GParamSpecUnichar"][::std::mem::align_of::<_GParamSpecUnichar>() - 8usize];
@@ -20645,6 +20805,7 @@ pub struct _GParamSpecEnum {
     pub default_value: gint,
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of _GParamSpecEnum"][::std::mem::size_of::<_GParamSpecEnum>() - 88usize];
     ["Alignment of _GParamSpecEnum"][::std::mem::align_of::<_GParamSpecEnum>() - 8usize];
@@ -20663,6 +20824,7 @@ pub struct _GParamSpecFlags {
     pub default_value: guint,
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of _GParamSpecFlags"][::std::mem::size_of::<_GParamSpecFlags>() - 88usize];
     ["Alignment of _GParamSpecFlags"][::std::mem::align_of::<_GParamSpecFlags>() - 8usize];
@@ -20683,6 +20845,7 @@ pub struct _GParamSpecFloat {
     pub epsilon: gfloat,
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of _GParamSpecFloat"][::std::mem::size_of::<_GParamSpecFloat>() - 88usize];
     ["Alignment of _GParamSpecFloat"][::std::mem::align_of::<_GParamSpecFloat>() - 8usize];
@@ -20707,6 +20870,7 @@ pub struct _GParamSpecDouble {
     pub epsilon: gdouble,
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of _GParamSpecDouble"][::std::mem::size_of::<_GParamSpecDouble>() - 104usize];
     ["Alignment of _GParamSpecDouble"][::std::mem::align_of::<_GParamSpecDouble>() - 8usize];
@@ -20734,6 +20898,7 @@ pub struct _GParamSpecString {
     pub __bindgen_padding_0: [u16; 3usize],
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of _GParamSpecString"][::std::mem::size_of::<_GParamSpecString>() - 104usize];
     ["Alignment of _GParamSpecString"][::std::mem::align_of::<_GParamSpecString>() - 8usize];
@@ -20838,6 +21003,7 @@ pub struct _GParamSpecParam {
     pub parent_instance: GParamSpec,
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of _GParamSpecParam"][::std::mem::size_of::<_GParamSpecParam>() - 72usize];
     ["Alignment of _GParamSpecParam"][::std::mem::align_of::<_GParamSpecParam>() - 8usize];
@@ -20850,6 +21016,7 @@ pub struct _GParamSpecBoxed {
     pub parent_instance: GParamSpec,
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of _GParamSpecBoxed"][::std::mem::size_of::<_GParamSpecBoxed>() - 72usize];
     ["Alignment of _GParamSpecBoxed"][::std::mem::align_of::<_GParamSpecBoxed>() - 8usize];
@@ -20862,6 +21029,7 @@ pub struct _GParamSpecPointer {
     pub parent_instance: GParamSpec,
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of _GParamSpecPointer"][::std::mem::size_of::<_GParamSpecPointer>() - 72usize];
     ["Alignment of _GParamSpecPointer"][::std::mem::align_of::<_GParamSpecPointer>() - 8usize];
@@ -20876,6 +21044,7 @@ pub struct _GParamSpecValueArray {
     pub fixed_n_elements: guint,
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of _GParamSpecValueArray"][::std::mem::size_of::<_GParamSpecValueArray>() - 88usize];
     ["Alignment of _GParamSpecValueArray"]
@@ -20893,6 +21062,7 @@ pub struct _GParamSpecObject {
     pub parent_instance: GParamSpec,
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of _GParamSpecObject"][::std::mem::size_of::<_GParamSpecObject>() - 72usize];
     ["Alignment of _GParamSpecObject"][::std::mem::align_of::<_GParamSpecObject>() - 8usize];
@@ -20906,6 +21076,7 @@ pub struct _GParamSpecOverride {
     pub overridden: *mut GParamSpec,
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of _GParamSpecOverride"][::std::mem::size_of::<_GParamSpecOverride>() - 80usize];
     ["Alignment of _GParamSpecOverride"][::std::mem::align_of::<_GParamSpecOverride>() - 8usize];
@@ -20921,6 +21092,7 @@ pub struct _GParamSpecGType {
     pub is_a_type: GType,
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of _GParamSpecGType"][::std::mem::size_of::<_GParamSpecGType>() - 80usize];
     ["Alignment of _GParamSpecGType"][::std::mem::align_of::<_GParamSpecGType>() - 8usize];
@@ -20938,6 +21110,7 @@ pub struct _GParamSpecVariant {
     pub padding: [gpointer; 4usize],
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of _GParamSpecVariant"][::std::mem::size_of::<_GParamSpecVariant>() - 120usize];
     ["Alignment of _GParamSpecVariant"][::std::mem::align_of::<_GParamSpecVariant>() - 8usize];
@@ -21276,6 +21449,7 @@ pub struct _GTypeModule {
     pub name: *mut gchar,
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of _GTypeModule"][::std::mem::size_of::<_GTypeModule>() - 56usize];
     ["Alignment of _GTypeModule"][::std::mem::align_of::<_GTypeModule>() - 8usize];
@@ -21301,6 +21475,7 @@ pub struct _GTypeModuleClass {
     pub reserved4: ::std::option::Option<unsafe extern "C" fn()>,
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of _GTypeModuleClass"][::std::mem::size_of::<_GTypeModuleClass>() - 184usize];
     ["Alignment of _GTypeModuleClass"][::std::mem::align_of::<_GTypeModuleClass>() - 8usize];
@@ -21391,6 +21566,7 @@ pub struct _GTypePluginClass {
     pub complete_interface_info: GTypePluginCompleteInterfaceInfo,
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of _GTypePluginClass"][::std::mem::size_of::<_GTypePluginClass>() - 48usize];
     ["Alignment of _GTypePluginClass"][::std::mem::align_of::<_GTypePluginClass>() - 8usize];
@@ -21439,6 +21615,7 @@ pub struct _GValueArray {
     pub n_prealloced: guint,
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of _GValueArray"][::std::mem::size_of::<_GValueArray>() - 24usize];
     ["Alignment of _GValueArray"][::std::mem::align_of::<_GValueArray>() - 8usize];
@@ -22631,6 +22808,7 @@ pub struct _GInputVector {
     pub size: gsize,
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of _GInputVector"][::std::mem::size_of::<_GInputVector>() - 16usize];
     ["Alignment of _GInputVector"][::std::mem::align_of::<_GInputVector>() - 8usize];
@@ -22651,6 +22829,7 @@ pub struct _GInputMessage {
     pub num_control_messages: *mut guint,
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of _GInputMessage"][::std::mem::size_of::<_GInputMessage>() - 56usize];
     ["Alignment of _GInputMessage"][::std::mem::align_of::<_GInputMessage>() - 8usize];
@@ -22677,6 +22856,7 @@ pub struct _GOutputVector {
     pub size: gsize,
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of _GOutputVector"][::std::mem::size_of::<_GOutputVector>() - 16usize];
     ["Alignment of _GOutputVector"][::std::mem::align_of::<_GOutputVector>() - 8usize];
@@ -22697,6 +22877,7 @@ pub struct _GOutputMessage {
     pub num_control_messages: guint,
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of _GOutputMessage"][::std::mem::size_of::<_GOutputMessage>() - 40usize];
     ["Alignment of _GOutputMessage"][::std::mem::align_of::<_GOutputMessage>() - 8usize];
@@ -22838,6 +23019,7 @@ pub struct _GActionInterface {
         ::std::option::Option<unsafe extern "C" fn(action: *mut GAction, parameter: *mut GVariant)>,
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of _GActionInterface"][::std::mem::size_of::<_GActionInterface>() - 80usize];
     ["Alignment of _GActionInterface"][::std::mem::align_of::<_GActionInterface>() - 8usize];
@@ -22995,6 +23177,7 @@ pub struct _GActionGroupInterface {
     >,
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of _GActionGroupInterface"][::std::mem::size_of::<_GActionGroupInterface>() - 128usize];
     ["Alignment of _GActionGroupInterface"]
@@ -23154,6 +23337,7 @@ pub struct _GActionMapInterface {
     >,
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of _GActionMapInterface"][::std::mem::size_of::<_GActionMapInterface>() - 40usize];
     ["Alignment of _GActionMapInterface"][::std::mem::align_of::<_GActionMapInterface>() - 8usize];
@@ -23185,6 +23369,7 @@ pub struct _GActionEntry {
     pub padding: [gsize; 3usize],
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of _GActionEntry"][::std::mem::size_of::<_GActionEntry>() - 64usize];
     ["Alignment of _GActionEntry"][::std::mem::align_of::<_GActionEntry>() - 8usize];
@@ -23348,6 +23533,7 @@ pub struct _GAppInfoIface {
     >,
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of _GAppInfoIface"][::std::mem::size_of::<_GAppInfoIface>() - 216usize];
     ["Alignment of _GAppInfoIface"][::std::mem::align_of::<_GAppInfoIface>() - 8usize];
@@ -23616,6 +23802,7 @@ pub struct _GAppLaunchContext {
     pub priv_: *mut GAppLaunchContextPrivate,
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of _GAppLaunchContext"][::std::mem::size_of::<_GAppLaunchContext>() - 32usize];
     ["Alignment of _GAppLaunchContext"][::std::mem::align_of::<_GAppLaunchContext>() - 8usize];
@@ -23667,6 +23854,7 @@ pub struct _GAppLaunchContextClass {
     pub _g_reserved3: ::std::option::Option<unsafe extern "C" fn()>,
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of _GAppLaunchContextClass"]
         [::std::mem::size_of::<_GAppLaunchContextClass>() - 200usize];
@@ -23761,6 +23949,7 @@ pub struct _GApplication {
     pub priv_: *mut GApplicationPrivate,
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of _GApplication"][::std::mem::size_of::<_GApplication>() - 32usize];
     ["Alignment of _GApplication"][::std::mem::align_of::<_GApplication>() - 8usize];
@@ -23831,6 +24020,7 @@ pub struct _GApplicationClass {
     pub padding: [gpointer; 7usize],
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of _GApplicationClass"][::std::mem::size_of::<_GApplicationClass>() - 312usize];
     ["Alignment of _GApplicationClass"][::std::mem::align_of::<_GApplicationClass>() - 8usize];
@@ -24065,6 +24255,7 @@ pub struct _GApplicationCommandLine {
     pub priv_: *mut GApplicationCommandLinePrivate,
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of _GApplicationCommandLine"]
         [::std::mem::size_of::<_GApplicationCommandLine>() - 32usize];
@@ -24092,6 +24283,7 @@ pub struct _GApplicationCommandLineClass {
     pub padding: [gpointer; 10usize],
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of _GApplicationCommandLineClass"]
         [::std::mem::size_of::<_GApplicationCommandLineClass>() - 248usize];
@@ -24215,6 +24407,7 @@ pub struct _GInitableIface {
     >,
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of _GInitableIface"][::std::mem::size_of::<_GInitableIface>() - 24usize];
     ["Alignment of _GInitableIface"][::std::mem::align_of::<_GInitableIface>() - 8usize];
@@ -24283,6 +24476,7 @@ pub struct _GAsyncInitableIface {
     >,
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of _GAsyncInitableIface"][::std::mem::size_of::<_GAsyncInitableIface>() - 32usize];
     ["Alignment of _GAsyncInitableIface"][::std::mem::align_of::<_GAsyncInitableIface>() - 8usize];
@@ -24366,6 +24560,7 @@ pub struct _GAsyncResultIface {
     >,
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of _GAsyncResultIface"][::std::mem::size_of::<_GAsyncResultIface>() - 40usize];
     ["Alignment of _GAsyncResultIface"][::std::mem::align_of::<_GAsyncResultIface>() - 8usize];
@@ -24410,6 +24605,7 @@ pub struct _GInputStream {
     pub priv_: *mut GInputStreamPrivate,
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of _GInputStream"][::std::mem::size_of::<_GInputStream>() - 32usize];
     ["Alignment of _GInputStream"][::std::mem::align_of::<_GInputStream>() - 8usize];
@@ -24504,6 +24700,7 @@ pub struct _GInputStreamClass {
     pub _g_reserved5: ::std::option::Option<unsafe extern "C" fn()>,
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of _GInputStreamClass"][::std::mem::size_of::<_GInputStreamClass>() - 248usize];
     ["Alignment of _GInputStreamClass"][::std::mem::align_of::<_GInputStreamClass>() - 8usize];
@@ -24693,6 +24890,7 @@ pub struct _GFilterInputStream {
     pub base_stream: *mut GInputStream,
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of _GFilterInputStream"][::std::mem::size_of::<_GFilterInputStream>() - 40usize];
     ["Alignment of _GFilterInputStream"][::std::mem::align_of::<_GFilterInputStream>() - 8usize];
@@ -24710,6 +24908,7 @@ pub struct _GFilterInputStreamClass {
     pub _g_reserved3: ::std::option::Option<unsafe extern "C" fn()>,
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of _GFilterInputStreamClass"]
         [::std::mem::size_of::<_GFilterInputStreamClass>() - 272usize];
@@ -24756,6 +24955,7 @@ pub struct _GBufferedInputStream {
     pub priv_: *mut GBufferedInputStreamPrivate,
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of _GBufferedInputStream"][::std::mem::size_of::<_GBufferedInputStream>() - 48usize];
     ["Alignment of _GBufferedInputStream"]
@@ -24801,6 +25001,7 @@ pub struct _GBufferedInputStreamClass {
     pub _g_reserved5: ::std::option::Option<unsafe extern "C" fn()>,
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of _GBufferedInputStreamClass"]
         [::std::mem::size_of::<_GBufferedInputStreamClass>() - 336usize];
@@ -24906,6 +25107,7 @@ pub struct _GOutputStream {
     pub priv_: *mut GOutputStreamPrivate,
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of _GOutputStream"][::std::mem::size_of::<_GOutputStream>() - 32usize];
     ["Alignment of _GOutputStream"][::std::mem::align_of::<_GOutputStream>() - 8usize];
@@ -25054,6 +25256,7 @@ pub struct _GOutputStreamClass {
     pub _g_reserved8: ::std::option::Option<unsafe extern "C" fn()>,
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of _GOutputStreamClass"][::std::mem::size_of::<_GOutputStreamClass>() - 296usize];
     ["Alignment of _GOutputStreamClass"][::std::mem::align_of::<_GOutputStreamClass>() - 8usize];
@@ -25361,6 +25564,7 @@ pub struct _GFilterOutputStream {
     pub base_stream: *mut GOutputStream,
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of _GFilterOutputStream"][::std::mem::size_of::<_GFilterOutputStream>() - 40usize];
     ["Alignment of _GFilterOutputStream"][::std::mem::align_of::<_GFilterOutputStream>() - 8usize];
@@ -25378,6 +25582,7 @@ pub struct _GFilterOutputStreamClass {
     pub _g_reserved3: ::std::option::Option<unsafe extern "C" fn()>,
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of _GFilterOutputStreamClass"]
         [::std::mem::size_of::<_GFilterOutputStreamClass>() - 320usize];
@@ -25425,6 +25630,7 @@ pub struct _GBufferedOutputStream {
     pub priv_: *mut GBufferedOutputStreamPrivate,
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of _GBufferedOutputStream"][::std::mem::size_of::<_GBufferedOutputStream>() - 48usize];
     ["Alignment of _GBufferedOutputStream"]
@@ -25442,6 +25648,7 @@ pub struct _GBufferedOutputStreamClass {
     pub _g_reserved2: ::std::option::Option<unsafe extern "C" fn()>,
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of _GBufferedOutputStreamClass"]
         [::std::mem::size_of::<_GBufferedOutputStreamClass>() - 336usize];
@@ -25507,6 +25714,7 @@ pub struct _GCancellable {
     pub priv_: *mut GCancellablePrivate,
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of _GCancellable"][::std::mem::size_of::<_GCancellable>() - 32usize];
     ["Alignment of _GCancellable"][::std::mem::align_of::<_GCancellable>() - 8usize];
@@ -25527,6 +25735,7 @@ pub struct _GCancellableClass {
     pub _g_reserved5: ::std::option::Option<unsafe extern "C" fn()>,
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of _GCancellableClass"][::std::mem::size_of::<_GCancellableClass>() - 184usize];
     ["Alignment of _GCancellableClass"][::std::mem::align_of::<_GCancellableClass>() - 8usize];
@@ -25622,6 +25831,7 @@ pub struct _GConverterIface {
     pub reset: ::std::option::Option<unsafe extern "C" fn(converter: *mut GConverter)>,
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of _GConverterIface"][::std::mem::size_of::<_GConverterIface>() - 32usize];
     ["Alignment of _GConverterIface"][::std::mem::align_of::<_GConverterIface>() - 8usize];
@@ -25665,6 +25875,7 @@ pub struct _GCharsetConverterClass {
     pub parent_class: GObjectClass,
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of _GCharsetConverterClass"]
         [::std::mem::size_of::<_GCharsetConverterClass>() - 136usize];
@@ -25762,6 +25973,7 @@ pub struct _GConverterInputStream {
     pub priv_: *mut GConverterInputStreamPrivate,
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of _GConverterInputStream"][::std::mem::size_of::<_GConverterInputStream>() - 48usize];
     ["Alignment of _GConverterInputStream"]
@@ -25782,6 +25994,7 @@ pub struct _GConverterInputStreamClass {
     pub _g_reserved5: ::std::option::Option<unsafe extern "C" fn()>,
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of _GConverterInputStreamClass"]
         [::std::mem::size_of::<_GConverterInputStreamClass>() - 312usize];
@@ -25828,6 +26041,7 @@ pub struct _GConverterOutputStream {
     pub priv_: *mut GConverterOutputStreamPrivate,
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of _GConverterOutputStream"][::std::mem::size_of::<_GConverterOutputStream>() - 48usize];
     ["Alignment of _GConverterOutputStream"]
@@ -25848,6 +26062,7 @@ pub struct _GConverterOutputStreamClass {
     pub _g_reserved5: ::std::option::Option<unsafe extern "C" fn()>,
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of _GConverterOutputStreamClass"]
         [::std::mem::size_of::<_GConverterOutputStreamClass>() - 360usize];
@@ -26474,6 +26689,7 @@ pub struct _GDatagramBasedInterface {
     >,
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of _GDatagramBasedInterface"]
         [::std::mem::size_of::<_GDatagramBasedInterface>() - 56usize];
@@ -26553,6 +26769,7 @@ pub struct _GDataInputStream {
     pub priv_: *mut GDataInputStreamPrivate,
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of _GDataInputStream"][::std::mem::size_of::<_GDataInputStream>() - 56usize];
     ["Alignment of _GDataInputStream"][::std::mem::align_of::<_GDataInputStream>() - 8usize];
@@ -26572,6 +26789,7 @@ pub struct _GDataInputStreamClass {
     pub _g_reserved5: ::std::option::Option<unsafe extern "C" fn()>,
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of _GDataInputStreamClass"][::std::mem::size_of::<_GDataInputStreamClass>() - 376usize];
     ["Alignment of _GDataInputStreamClass"]
@@ -26778,6 +26996,7 @@ pub struct _GDataOutputStream {
     pub priv_: *mut GDataOutputStreamPrivate,
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of _GDataOutputStream"][::std::mem::size_of::<_GDataOutputStream>() - 48usize];
     ["Alignment of _GDataOutputStream"][::std::mem::align_of::<_GDataOutputStream>() - 8usize];
@@ -26797,6 +27016,7 @@ pub struct _GDataOutputStreamClass {
     pub _g_reserved5: ::std::option::Option<unsafe extern "C" fn()>,
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of _GDataOutputStreamClass"]
         [::std::mem::size_of::<_GDataOutputStreamClass>() - 360usize];
@@ -27298,6 +27518,7 @@ pub struct _GDBusInterfaceVTable {
     pub padding: [gpointer; 8usize],
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of _GDBusInterfaceVTable"][::std::mem::size_of::<_GDBusInterfaceVTable>() - 88usize];
     ["Alignment of _GDBusInterfaceVTable"]
@@ -27387,6 +27608,7 @@ pub struct _GDBusSubtreeVTable {
     pub padding: [gpointer; 8usize],
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of _GDBusSubtreeVTable"][::std::mem::size_of::<_GDBusSubtreeVTable>() - 88usize];
     ["Alignment of _GDBusSubtreeVTable"][::std::mem::align_of::<_GDBusSubtreeVTable>() - 8usize];
@@ -27485,6 +27707,7 @@ pub struct _GDBusErrorEntry {
     pub dbus_error_name: *const gchar,
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of _GDBusErrorEntry"][::std::mem::size_of::<_GDBusErrorEntry>() - 16usize];
     ["Alignment of _GDBusErrorEntry"][::std::mem::align_of::<_GDBusErrorEntry>() - 8usize];
@@ -27561,6 +27784,7 @@ pub struct _GDBusInterfaceIface {
     >,
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of _GDBusInterfaceIface"][::std::mem::size_of::<_GDBusInterfaceIface>() - 48usize];
     ["Alignment of _GDBusInterfaceIface"][::std::mem::align_of::<_GDBusInterfaceIface>() - 8usize];
@@ -27604,6 +27828,7 @@ pub struct _GDBusInterfaceSkeleton {
     pub priv_: *mut GDBusInterfaceSkeletonPrivate,
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of _GDBusInterfaceSkeleton"][::std::mem::size_of::<_GDBusInterfaceSkeleton>() - 32usize];
     ["Alignment of _GDBusInterfaceSkeleton"]
@@ -27637,6 +27862,7 @@ pub struct _GDBusInterfaceSkeletonClass {
     pub signal_padding: [gpointer; 8usize],
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of _GDBusInterfaceSkeletonClass"]
         [::std::mem::size_of::<_GDBusInterfaceSkeletonClass>() - 304usize];
@@ -27738,6 +27964,7 @@ pub struct _GDBusAnnotationInfo {
     pub annotations: *mut *mut GDBusAnnotationInfo,
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of _GDBusAnnotationInfo"][::std::mem::size_of::<_GDBusAnnotationInfo>() - 32usize];
     ["Alignment of _GDBusAnnotationInfo"][::std::mem::align_of::<_GDBusAnnotationInfo>() - 8usize];
@@ -27759,6 +27986,7 @@ pub struct _GDBusArgInfo {
     pub annotations: *mut *mut GDBusAnnotationInfo,
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of _GDBusArgInfo"][::std::mem::size_of::<_GDBusArgInfo>() - 32usize];
     ["Alignment of _GDBusArgInfo"][::std::mem::align_of::<_GDBusArgInfo>() - 8usize];
@@ -27780,6 +28008,7 @@ pub struct _GDBusMethodInfo {
     pub annotations: *mut *mut GDBusAnnotationInfo,
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of _GDBusMethodInfo"][::std::mem::size_of::<_GDBusMethodInfo>() - 40usize];
     ["Alignment of _GDBusMethodInfo"][::std::mem::align_of::<_GDBusMethodInfo>() - 8usize];
@@ -27803,6 +28032,7 @@ pub struct _GDBusSignalInfo {
     pub annotations: *mut *mut GDBusAnnotationInfo,
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of _GDBusSignalInfo"][::std::mem::size_of::<_GDBusSignalInfo>() - 32usize];
     ["Alignment of _GDBusSignalInfo"][::std::mem::align_of::<_GDBusSignalInfo>() - 8usize];
@@ -27825,6 +28055,7 @@ pub struct _GDBusPropertyInfo {
     pub annotations: *mut *mut GDBusAnnotationInfo,
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of _GDBusPropertyInfo"][::std::mem::size_of::<_GDBusPropertyInfo>() - 40usize];
     ["Alignment of _GDBusPropertyInfo"][::std::mem::align_of::<_GDBusPropertyInfo>() - 8usize];
@@ -27850,6 +28081,7 @@ pub struct _GDBusInterfaceInfo {
     pub annotations: *mut *mut GDBusAnnotationInfo,
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of _GDBusInterfaceInfo"][::std::mem::size_of::<_GDBusInterfaceInfo>() - 48usize];
     ["Alignment of _GDBusInterfaceInfo"][::std::mem::align_of::<_GDBusInterfaceInfo>() - 8usize];
@@ -27876,6 +28108,7 @@ pub struct _GDBusNodeInfo {
     pub annotations: *mut *mut GDBusAnnotationInfo,
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of _GDBusNodeInfo"][::std::mem::size_of::<_GDBusNodeInfo>() - 40usize];
     ["Alignment of _GDBusNodeInfo"][::std::mem::align_of::<_GDBusNodeInfo>() - 8usize];
@@ -28475,6 +28708,7 @@ pub struct _GDBusObjectIface {
     >,
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of _GDBusObjectIface"][::std::mem::size_of::<_GDBusObjectIface>() - 56usize];
     ["Alignment of _GDBusObjectIface"][::std::mem::align_of::<_GDBusObjectIface>() - 8usize];
@@ -28551,6 +28785,7 @@ pub struct _GDBusObjectManagerIface {
     >,
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of _GDBusObjectManagerIface"]
         [::std::mem::size_of::<_GDBusObjectManagerIface>() - 80usize];
@@ -28611,6 +28846,7 @@ pub struct _GDBusObjectManagerClient {
     pub priv_: *mut GDBusObjectManagerClientPrivate,
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of _GDBusObjectManagerClient"]
         [::std::mem::size_of::<_GDBusObjectManagerClient>() - 32usize];
@@ -28647,6 +28883,7 @@ pub struct _GDBusObjectManagerClientClass {
     pub padding: [gpointer; 8usize],
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of _GDBusObjectManagerClientClass"]
         [::std::mem::size_of::<_GDBusObjectManagerClientClass>() - 216usize];
@@ -28767,6 +29004,7 @@ pub struct _GDBusObjectManagerServer {
     pub priv_: *mut GDBusObjectManagerServerPrivate,
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of _GDBusObjectManagerServer"]
         [::std::mem::size_of::<_GDBusObjectManagerServer>() - 32usize];
@@ -28784,6 +29022,7 @@ pub struct _GDBusObjectManagerServerClass {
     pub padding: [gpointer; 8usize],
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of _GDBusObjectManagerServerClass"]
         [::std::mem::size_of::<_GDBusObjectManagerServerClass>() - 200usize];
@@ -28851,6 +29090,7 @@ pub struct _GDBusObjectProxy {
     pub priv_: *mut GDBusObjectProxyPrivate,
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of _GDBusObjectProxy"][::std::mem::size_of::<_GDBusObjectProxy>() - 32usize];
     ["Alignment of _GDBusObjectProxy"][::std::mem::align_of::<_GDBusObjectProxy>() - 8usize];
@@ -28866,6 +29106,7 @@ pub struct _GDBusObjectProxyClass {
     pub padding: [gpointer; 8usize],
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of _GDBusObjectProxyClass"][::std::mem::size_of::<_GDBusObjectProxyClass>() - 200usize];
     ["Alignment of _GDBusObjectProxyClass"]
@@ -28902,6 +29143,7 @@ pub struct _GDBusObjectSkeleton {
     pub priv_: *mut GDBusObjectSkeletonPrivate,
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of _GDBusObjectSkeleton"][::std::mem::size_of::<_GDBusObjectSkeleton>() - 32usize];
     ["Alignment of _GDBusObjectSkeleton"][::std::mem::align_of::<_GDBusObjectSkeleton>() - 8usize];
@@ -28924,6 +29166,7 @@ pub struct _GDBusObjectSkeletonClass {
     pub padding: [gpointer; 8usize],
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of _GDBusObjectSkeletonClass"]
         [::std::mem::size_of::<_GDBusObjectSkeletonClass>() - 208usize];
@@ -28983,6 +29226,7 @@ pub struct _GDBusProxy {
     pub priv_: *mut GDBusProxyPrivate,
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of _GDBusProxy"][::std::mem::size_of::<_GDBusProxy>() - 32usize];
     ["Alignment of _GDBusProxy"][::std::mem::align_of::<_GDBusProxy>() - 8usize];
@@ -29012,6 +29256,7 @@ pub struct _GDBusProxyClass {
     pub padding: [gpointer; 32usize],
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of _GDBusProxyClass"][::std::mem::size_of::<_GDBusProxyClass>() - 408usize];
     ["Alignment of _GDBusProxyClass"][::std::mem::align_of::<_GDBusProxyClass>() - 8usize];
@@ -29289,6 +29534,7 @@ pub struct _GDebugControllerInterface {
     pub g_iface: GTypeInterface,
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of _GDebugControllerInterface"]
         [::std::mem::size_of::<_GDebugControllerInterface>() - 16usize];
@@ -29317,6 +29563,7 @@ pub struct _GDebugControllerDBus {
     pub parent_instance: GObject,
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of _GDebugControllerDBus"][::std::mem::size_of::<_GDebugControllerDBus>() - 24usize];
     ["Alignment of _GDebugControllerDBus"]
@@ -29345,6 +29592,7 @@ pub struct _GDebugControllerDBusClass {
     pub padding: [gpointer; 12usize],
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of _GDebugControllerDBusClass"]
         [::std::mem::size_of::<_GDebugControllerDBusClass>() - 240usize];
@@ -29494,6 +29742,7 @@ pub struct _GDriveIface {
     pub is_removable: ::std::option::Option<unsafe extern "C" fn(drive: *mut GDrive) -> gboolean>,
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of _GDriveIface"][::std::mem::size_of::<_GDriveIface>() - 272usize];
     ["Alignment of _GDriveIface"][::std::mem::align_of::<_GDriveIface>() - 8usize];
@@ -29782,6 +30031,7 @@ pub struct _GDtlsConnectionInterface {
     >,
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of _GDtlsConnectionInterface"]
         [::std::mem::size_of::<_GDtlsConnectionInterface>() - 96usize];
@@ -29979,6 +30229,7 @@ pub struct _GDtlsClientConnectionInterface {
     pub g_iface: GTypeInterface,
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of _GDtlsClientConnectionInterface"]
         [::std::mem::size_of::<_GDtlsClientConnectionInterface>() - 16usize];
@@ -30031,6 +30282,7 @@ pub struct _GDtlsServerConnectionInterface {
     pub g_iface: GTypeInterface,
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of _GDtlsServerConnectionInterface"]
         [::std::mem::size_of::<_GDtlsServerConnectionInterface>() - 16usize];
@@ -30076,6 +30328,7 @@ pub struct _GIconIface {
     pub serialize: ::std::option::Option<unsafe extern "C" fn(icon: *mut GIcon) -> *mut GVariant>,
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of _GIconIface"][::std::mem::size_of::<_GIconIface>() - 56usize];
     ["Alignment of _GIconIface"][::std::mem::align_of::<_GIconIface>() - 8usize];
@@ -30153,6 +30406,7 @@ pub struct _GEmblemedIcon {
     pub priv_: *mut GEmblemedIconPrivate,
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of _GEmblemedIcon"][::std::mem::size_of::<_GEmblemedIcon>() - 32usize];
     ["Alignment of _GEmblemedIcon"][::std::mem::align_of::<_GEmblemedIcon>() - 8usize];
@@ -30167,6 +30421,7 @@ pub struct _GEmblemedIconClass {
     pub parent_class: GObjectClass,
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of _GEmblemedIconClass"][::std::mem::size_of::<_GEmblemedIconClass>() - 136usize];
     ["Alignment of _GEmblemedIconClass"][::std::mem::align_of::<_GEmblemedIconClass>() - 8usize];
@@ -30971,6 +31226,7 @@ pub struct _GFileIface {
     >,
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of _GFileIface"][::std::mem::size_of::<_GFileIface>() - 848usize];
     ["Alignment of _GFileIface"][::std::mem::align_of::<_GFileIface>() - 8usize];
@@ -32301,6 +32557,7 @@ pub struct _GFileAttributeInfo {
     pub flags: GFileAttributeInfoFlags,
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of _GFileAttributeInfo"][::std::mem::size_of::<_GFileAttributeInfo>() - 16usize];
     ["Alignment of _GFileAttributeInfo"][::std::mem::align_of::<_GFileAttributeInfo>() - 8usize];
@@ -32318,6 +32575,7 @@ pub struct _GFileAttributeInfoList {
     pub n_infos: ::std::os::raw::c_int,
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of _GFileAttributeInfoList"][::std::mem::size_of::<_GFileAttributeInfoList>() - 16usize];
     ["Alignment of _GFileAttributeInfoList"]
@@ -32374,6 +32632,7 @@ pub struct _GFileEnumerator {
     pub priv_: *mut GFileEnumeratorPrivate,
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of _GFileEnumerator"][::std::mem::size_of::<_GFileEnumerator>() - 32usize];
     ["Alignment of _GFileEnumerator"][::std::mem::align_of::<_GFileEnumerator>() - 8usize];
@@ -32442,6 +32701,7 @@ pub struct _GFileEnumeratorClass {
     pub _g_reserved7: ::std::option::Option<unsafe extern "C" fn()>,
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of _GFileEnumeratorClass"][::std::mem::size_of::<_GFileEnumeratorClass>() - 240usize];
     ["Alignment of _GFileEnumeratorClass"]
@@ -32971,6 +33231,7 @@ pub struct _GFileInputStream {
     pub priv_: *mut GFileInputStreamPrivate,
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of _GFileInputStream"][::std::mem::size_of::<_GFileInputStream>() - 40usize];
     ["Alignment of _GFileInputStream"][::std::mem::align_of::<_GFileInputStream>() - 8usize];
@@ -33027,6 +33288,7 @@ pub struct _GFileInputStreamClass {
     pub _g_reserved5: ::std::option::Option<unsafe extern "C" fn()>,
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of _GFileInputStreamClass"][::std::mem::size_of::<_GFileInputStreamClass>() - 336usize];
     ["Alignment of _GFileInputStreamClass"]
@@ -33107,6 +33369,7 @@ pub struct _GIOStream {
     pub priv_: *mut GIOStreamPrivate,
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of _GIOStream"][::std::mem::size_of::<_GIOStream>() - 32usize];
     ["Alignment of _GIOStream"][::std::mem::align_of::<_GIOStream>() - 8usize];
@@ -33157,6 +33420,7 @@ pub struct _GIOStreamClass {
     pub _g_reserved10: ::std::option::Option<unsafe extern "C" fn()>,
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of _GIOStreamClass"][::std::mem::size_of::<_GIOStreamClass>() - 256usize];
     ["Alignment of _GIOStreamClass"][::std::mem::align_of::<_GIOStreamClass>() - 8usize];
@@ -33268,6 +33532,7 @@ pub struct _GFileIOStream {
     pub priv_: *mut GFileIOStreamPrivate,
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of _GFileIOStream"][::std::mem::size_of::<_GFileIOStream>() - 40usize];
     ["Alignment of _GFileIOStream"][::std::mem::align_of::<_GFileIOStream>() - 8usize];
@@ -33337,6 +33602,7 @@ pub struct _GFileIOStreamClass {
     pub _g_reserved5: ::std::option::Option<unsafe extern "C" fn()>,
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of _GFileIOStreamClass"][::std::mem::size_of::<_GFileIOStreamClass>() - 368usize];
     ["Alignment of _GFileIOStreamClass"][::std::mem::align_of::<_GFileIOStreamClass>() - 8usize];
@@ -33416,6 +33682,7 @@ pub struct _GFileMonitor {
     pub priv_: *mut GFileMonitorPrivate,
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of _GFileMonitor"][::std::mem::size_of::<_GFileMonitor>() - 32usize];
     ["Alignment of _GFileMonitor"][::std::mem::align_of::<_GFileMonitor>() - 8usize];
@@ -33444,6 +33711,7 @@ pub struct _GFileMonitorClass {
     pub _g_reserved5: ::std::option::Option<unsafe extern "C" fn()>,
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of _GFileMonitorClass"][::std::mem::size_of::<_GFileMonitorClass>() - 192usize];
     ["Alignment of _GFileMonitorClass"][::std::mem::align_of::<_GFileMonitorClass>() - 8usize];
@@ -33496,6 +33764,7 @@ pub struct _GFilenameCompleterClass {
     pub _g_reserved3: ::std::option::Option<unsafe extern "C" fn()>,
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of _GFilenameCompleterClass"]
         [::std::mem::size_of::<_GFilenameCompleterClass>() - 168usize];
@@ -33550,6 +33819,7 @@ pub struct _GFileOutputStream {
     pub priv_: *mut GFileOutputStreamPrivate,
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of _GFileOutputStream"][::std::mem::size_of::<_GFileOutputStream>() - 40usize];
     ["Alignment of _GFileOutputStream"][::std::mem::align_of::<_GFileOutputStream>() - 8usize];
@@ -33620,6 +33890,7 @@ pub struct _GFileOutputStreamClass {
     pub _g_reserved5: ::std::option::Option<unsafe extern "C" fn()>,
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of _GFileOutputStreamClass"]
         [::std::mem::size_of::<_GFileOutputStreamClass>() - 408usize];
@@ -33703,6 +33974,7 @@ pub struct _GInetAddress {
     pub priv_: *mut GInetAddressPrivate,
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of _GInetAddress"][::std::mem::size_of::<_GInetAddress>() - 32usize];
     ["Alignment of _GInetAddress"][::std::mem::align_of::<_GInetAddress>() - 8usize];
@@ -33721,6 +33993,7 @@ pub struct _GInetAddressClass {
         ::std::option::Option<unsafe extern "C" fn(address: *mut GInetAddress) -> *const guint8>,
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of _GInetAddressClass"][::std::mem::size_of::<_GInetAddressClass>() - 152usize];
     ["Alignment of _GInetAddressClass"][::std::mem::align_of::<_GInetAddressClass>() - 8usize];
@@ -33825,6 +34098,7 @@ pub struct _GInetAddressMask {
     pub priv_: *mut GInetAddressMaskPrivate,
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of _GInetAddressMask"][::std::mem::size_of::<_GInetAddressMask>() - 32usize];
     ["Alignment of _GInetAddressMask"][::std::mem::align_of::<_GInetAddressMask>() - 8usize];
@@ -33839,6 +34113,7 @@ pub struct _GInetAddressMaskClass {
     pub parent_class: GObjectClass,
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of _GInetAddressMaskClass"][::std::mem::size_of::<_GInetAddressMaskClass>() - 136usize];
     ["Alignment of _GInetAddressMaskClass"]
@@ -33893,6 +34168,7 @@ pub struct _GSocketAddress {
     pub parent_instance: GObject,
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of _GSocketAddress"][::std::mem::size_of::<_GSocketAddress>() - 24usize];
     ["Alignment of _GSocketAddress"][::std::mem::align_of::<_GSocketAddress>() - 8usize];
@@ -33917,6 +34193,7 @@ pub struct _GSocketAddressClass {
     >,
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of _GSocketAddressClass"][::std::mem::size_of::<_GSocketAddressClass>() - 160usize];
     ["Alignment of _GSocketAddressClass"][::std::mem::align_of::<_GSocketAddressClass>() - 8usize];
@@ -33963,6 +34240,7 @@ pub struct _GInetSocketAddress {
     pub priv_: *mut GInetSocketAddressPrivate,
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of _GInetSocketAddress"][::std::mem::size_of::<_GInetSocketAddress>() - 32usize];
     ["Alignment of _GInetSocketAddress"][::std::mem::align_of::<_GInetSocketAddress>() - 8usize];
@@ -33977,6 +34255,7 @@ pub struct _GInetSocketAddressClass {
     pub parent_class: GSocketAddressClass,
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of _GInetSocketAddressClass"]
         [::std::mem::size_of::<_GInetSocketAddressClass>() - 160usize];
@@ -34417,6 +34696,7 @@ pub struct _GListModelInterface {
     >,
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of _GListModelInterface"][::std::mem::size_of::<_GListModelInterface>() - 40usize];
     ["Alignment of _GListModelInterface"][::std::mem::align_of::<_GListModelInterface>() - 8usize];
@@ -34464,6 +34744,7 @@ pub struct GListStoreClass {
     pub parent_class: GObjectClass,
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of GListStoreClass"][::std::mem::size_of::<GListStoreClass>() - 136usize];
     ["Alignment of GListStoreClass"][::std::mem::align_of::<GListStoreClass>() - 8usize];
@@ -34574,6 +34855,7 @@ pub struct _GLoadableIconIface {
     >,
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of _GLoadableIconIface"][::std::mem::size_of::<_GLoadableIconIface>() - 40usize];
     ["Alignment of _GLoadableIconIface"][::std::mem::align_of::<_GLoadableIconIface>() - 8usize];
@@ -34629,6 +34911,7 @@ pub struct _GMemoryInputStream {
     pub priv_: *mut GMemoryInputStreamPrivate,
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of _GMemoryInputStream"][::std::mem::size_of::<_GMemoryInputStream>() - 40usize];
     ["Alignment of _GMemoryInputStream"][::std::mem::align_of::<_GMemoryInputStream>() - 8usize];
@@ -34648,6 +34931,7 @@ pub struct _GMemoryInputStreamClass {
     pub _g_reserved5: ::std::option::Option<unsafe extern "C" fn()>,
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of _GMemoryInputStreamClass"]
         [::std::mem::size_of::<_GMemoryInputStreamClass>() - 288usize];
@@ -34716,6 +35000,7 @@ pub struct _GMemoryMonitorInterface {
     >,
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of _GMemoryMonitorInterface"]
         [::std::mem::size_of::<_GMemoryMonitorInterface>() - 24usize];
@@ -34743,6 +35028,7 @@ pub struct _GMemoryOutputStream {
     pub priv_: *mut GMemoryOutputStreamPrivate,
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of _GMemoryOutputStream"][::std::mem::size_of::<_GMemoryOutputStream>() - 40usize];
     ["Alignment of _GMemoryOutputStream"][::std::mem::align_of::<_GMemoryOutputStream>() - 8usize];
@@ -34762,6 +35048,7 @@ pub struct _GMemoryOutputStreamClass {
     pub _g_reserved5: ::std::option::Option<unsafe extern "C" fn()>,
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of _GMemoryOutputStreamClass"]
         [::std::mem::size_of::<_GMemoryOutputStreamClass>() - 336usize];
@@ -34841,6 +35128,7 @@ pub struct _GMenuModel {
     pub priv_: *mut GMenuModelPrivate,
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of _GMenuModel"][::std::mem::size_of::<_GMenuModel>() - 32usize];
     ["Alignment of _GMenuModel"][::std::mem::align_of::<_GMenuModel>() - 8usize];
@@ -34887,6 +35175,7 @@ pub struct _GMenuModelClass {
     >,
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of _GMenuModelClass"][::std::mem::size_of::<_GMenuModelClass>() - 200usize];
     ["Alignment of _GMenuModelClass"][::std::mem::align_of::<_GMenuModelClass>() - 8usize];
@@ -34969,6 +35258,7 @@ pub struct _GMenuAttributeIter {
     pub priv_: *mut GMenuAttributeIterPrivate,
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of _GMenuAttributeIter"][::std::mem::size_of::<_GMenuAttributeIter>() - 32usize];
     ["Alignment of _GMenuAttributeIter"][::std::mem::align_of::<_GMenuAttributeIter>() - 8usize];
@@ -34990,6 +35280,7 @@ pub struct _GMenuAttributeIterClass {
     >,
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of _GMenuAttributeIterClass"]
         [::std::mem::size_of::<_GMenuAttributeIterClass>() - 144usize];
@@ -35026,6 +35317,7 @@ pub struct _GMenuLinkIter {
     pub priv_: *mut GMenuLinkIterPrivate,
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of _GMenuLinkIter"][::std::mem::size_of::<_GMenuLinkIter>() - 32usize];
     ["Alignment of _GMenuLinkIter"][::std::mem::align_of::<_GMenuLinkIter>() - 8usize];
@@ -35047,6 +35339,7 @@ pub struct _GMenuLinkIterClass {
     >,
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of _GMenuLinkIterClass"][::std::mem::size_of::<_GMenuLinkIterClass>() - 144usize];
     ["Alignment of _GMenuLinkIterClass"][::std::mem::align_of::<_GMenuLinkIterClass>() - 8usize];
@@ -35391,6 +35684,7 @@ pub struct _GMountIface {
         ::std::option::Option<unsafe extern "C" fn(mount: *mut GMount) -> *mut GIcon>,
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of _GMountIface"][::std::mem::size_of::<_GMountIface>() - 232usize];
     ["Alignment of _GMountIface"][::std::mem::align_of::<_GMountIface>() - 8usize];
@@ -35617,6 +35911,7 @@ pub struct _GMountOperation {
     pub priv_: *mut GMountOperationPrivate,
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of _GMountOperation"][::std::mem::size_of::<_GMountOperation>() - 32usize];
     ["Alignment of _GMountOperation"][::std::mem::align_of::<_GMountOperation>() - 8usize];
@@ -35676,6 +35971,7 @@ pub struct _GMountOperationClass {
     pub _g_reserved9: ::std::option::Option<unsafe extern "C" fn()>,
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of _GMountOperationClass"][::std::mem::size_of::<_GMountOperationClass>() - 256usize];
     ["Alignment of _GMountOperationClass"]
@@ -35809,6 +36105,7 @@ pub struct _GNativeSocketAddress {
     pub priv_: *mut GNativeSocketAddressPrivate,
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of _GNativeSocketAddress"][::std::mem::size_of::<_GNativeSocketAddress>() - 32usize];
     ["Alignment of _GNativeSocketAddress"]
@@ -35824,6 +36121,7 @@ pub struct _GNativeSocketAddressClass {
     pub parent_class: GSocketAddressClass,
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of _GNativeSocketAddressClass"]
         [::std::mem::size_of::<_GNativeSocketAddressClass>() - 160usize];
@@ -35846,6 +36144,7 @@ pub struct _GVolumeMonitor {
     pub priv_: gpointer,
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of _GVolumeMonitor"][::std::mem::size_of::<_GVolumeMonitor>() - 32usize];
     ["Alignment of _GVolumeMonitor"][::std::mem::align_of::<_GVolumeMonitor>() - 8usize];
@@ -35930,6 +36229,7 @@ pub struct _GVolumeMonitorClass {
     pub _g_reserved6: ::std::option::Option<unsafe extern "C" fn()>,
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of _GVolumeMonitorClass"][::std::mem::size_of::<_GVolumeMonitorClass>() - 336usize];
     ["Alignment of _GVolumeMonitorClass"][::std::mem::align_of::<_GVolumeMonitorClass>() - 8usize];
@@ -36025,6 +36325,7 @@ pub struct _GNativeVolumeMonitor {
     pub parent_instance: GVolumeMonitor,
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of _GNativeVolumeMonitor"][::std::mem::size_of::<_GNativeVolumeMonitor>() - 32usize];
     ["Alignment of _GNativeVolumeMonitor"]
@@ -36044,6 +36345,7 @@ pub struct _GNativeVolumeMonitorClass {
     >,
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of _GNativeVolumeMonitorClass"]
         [::std::mem::size_of::<_GNativeVolumeMonitorClass>() - 344usize];
@@ -36071,6 +36373,7 @@ pub struct _GNetworkAddress {
     pub priv_: *mut GNetworkAddressPrivate,
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of _GNetworkAddress"][::std::mem::size_of::<_GNetworkAddress>() - 32usize];
     ["Alignment of _GNetworkAddress"][::std::mem::align_of::<_GNetworkAddress>() - 8usize];
@@ -36085,6 +36388,7 @@ pub struct _GNetworkAddressClass {
     pub parent_class: GObjectClass,
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of _GNetworkAddressClass"][::std::mem::size_of::<_GNetworkAddressClass>() - 136usize];
     ["Alignment of _GNetworkAddressClass"]
@@ -36158,6 +36462,7 @@ pub struct _GNetworkMonitorInterface {
     >,
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of _GNetworkMonitorInterface"]
         [::std::mem::size_of::<_GNetworkMonitorInterface>() - 48usize];
@@ -36229,6 +36534,7 @@ pub struct _GNetworkService {
     pub priv_: *mut GNetworkServicePrivate,
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of _GNetworkService"][::std::mem::size_of::<_GNetworkService>() - 32usize];
     ["Alignment of _GNetworkService"][::std::mem::align_of::<_GNetworkService>() - 8usize];
@@ -36243,6 +36549,7 @@ pub struct _GNetworkServiceClass {
     pub parent_class: GObjectClass,
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of _GNetworkServiceClass"][::std::mem::size_of::<_GNetworkServiceClass>() - 136usize];
     ["Alignment of _GNetworkServiceClass"]
@@ -36361,6 +36668,7 @@ pub struct _GPermission {
     pub priv_: *mut GPermissionPrivate,
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of _GPermission"][::std::mem::size_of::<_GPermission>() - 32usize];
     ["Alignment of _GPermission"][::std::mem::align_of::<_GPermission>() - 8usize];
@@ -36419,6 +36727,7 @@ pub struct _GPermissionClass {
     pub reserved: [gpointer; 16usize],
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of _GPermissionClass"][::std::mem::size_of::<_GPermissionClass>() - 312usize];
     ["Alignment of _GPermissionClass"][::std::mem::align_of::<_GPermissionClass>() - 8usize];
@@ -36528,6 +36837,7 @@ pub struct _GPollableInputStreamInterface {
     >,
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of _GPollableInputStreamInterface"]
         [::std::mem::size_of::<_GPollableInputStreamInterface>() - 48usize];
@@ -36602,6 +36912,7 @@ pub struct _GPollableOutputStreamInterface {
     >,
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of _GPollableOutputStreamInterface"]
         [::std::mem::size_of::<_GPollableOutputStreamInterface>() - 56usize];
@@ -36715,6 +37026,7 @@ pub struct _GPowerProfileMonitorInterface {
     pub g_iface: GTypeInterface,
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of _GPowerProfileMonitorInterface"]
         [::std::mem::size_of::<_GPowerProfileMonitorInterface>() - 16usize];
@@ -36776,6 +37088,7 @@ pub struct _GProxyInterface {
         ::std::option::Option<unsafe extern "C" fn(proxy: *mut GProxy) -> gboolean>,
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of _GProxyInterface"][::std::mem::size_of::<_GProxyInterface>() - 48usize];
     ["Alignment of _GProxyInterface"][::std::mem::align_of::<_GProxyInterface>() - 8usize];
@@ -36839,6 +37152,7 @@ pub struct _GProxyAddress {
     pub priv_: *mut GProxyAddressPrivate,
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of _GProxyAddress"][::std::mem::size_of::<_GProxyAddress>() - 40usize];
     ["Alignment of _GProxyAddress"][::std::mem::align_of::<_GProxyAddress>() - 8usize];
@@ -36853,6 +37167,7 @@ pub struct _GProxyAddressClass {
     pub parent_class: GInetSocketAddressClass,
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of _GProxyAddressClass"][::std::mem::size_of::<_GProxyAddressClass>() - 160usize];
     ["Alignment of _GProxyAddressClass"][::std::mem::align_of::<_GProxyAddressClass>() - 8usize];
@@ -36901,6 +37216,7 @@ pub struct _GSocketAddressEnumerator {
     pub parent_instance: GObject,
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of _GSocketAddressEnumerator"]
         [::std::mem::size_of::<_GSocketAddressEnumerator>() - 24usize];
@@ -36937,6 +37253,7 @@ pub struct _GSocketAddressEnumeratorClass {
     >,
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of _GSocketAddressEnumeratorClass"]
         [::std::mem::size_of::<_GSocketAddressEnumeratorClass>() - 160usize];
@@ -36990,6 +37307,7 @@ pub struct _GProxyAddressEnumerator {
     pub priv_: *mut GProxyAddressEnumeratorPrivate,
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of _GProxyAddressEnumerator"]
         [::std::mem::size_of::<_GProxyAddressEnumerator>() - 32usize];
@@ -37013,6 +37331,7 @@ pub struct _GProxyAddressEnumeratorClass {
     pub _g_reserved7: ::std::option::Option<unsafe extern "C" fn()>,
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of _GProxyAddressEnumeratorClass"]
         [::std::mem::size_of::<_GProxyAddressEnumeratorClass>() - 216usize];
@@ -37071,6 +37390,7 @@ pub struct _GProxyResolverInterface {
     >,
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of _GProxyResolverInterface"]
         [::std::mem::size_of::<_GProxyResolverInterface>() - 48usize];
@@ -37143,6 +37463,7 @@ pub struct _GRemoteActionGroupInterface {
     >,
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of _GRemoteActionGroupInterface"]
         [::std::mem::size_of::<_GRemoteActionGroupInterface>() - 32usize];
@@ -37188,6 +37509,7 @@ pub struct _GResolver {
     pub priv_: *mut GResolverPrivate,
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of _GResolver"][::std::mem::size_of::<_GResolver>() - 32usize];
     ["Alignment of _GResolver"][::std::mem::align_of::<_GResolver>() - 8usize];
@@ -37333,6 +37655,7 @@ pub struct _GResolverClass {
     >,
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of _GResolverClass"][::std::mem::size_of::<_GResolverClass>() - 264usize];
     ["Alignment of _GResolverClass"][::std::mem::align_of::<_GResolverClass>() - 8usize];
@@ -37537,6 +37860,7 @@ pub struct _GStaticResource {
     pub padding: gpointer,
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of _GStaticResource"][::std::mem::size_of::<_GStaticResource>() - 40usize];
     ["Alignment of _GStaticResource"][::std::mem::align_of::<_GStaticResource>() - 8usize];
@@ -37682,6 +38006,7 @@ pub struct _GSeekableIface {
     >,
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of _GSeekableIface"][::std::mem::size_of::<_GSeekableIface>() - 56usize];
     ["Alignment of _GSeekableIface"][::std::mem::align_of::<_GSeekableIface>() - 8usize];
@@ -37875,6 +38200,7 @@ pub struct _GSettingsClass {
     pub padding: [gpointer; 20usize],
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of _GSettingsClass"][::std::mem::size_of::<_GSettingsClass>() - 328usize];
     ["Alignment of _GSettingsClass"][::std::mem::align_of::<_GSettingsClass>() - 8usize];
@@ -37898,6 +38224,7 @@ pub struct _GSettings {
     pub priv_: *mut GSettingsPrivate,
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of _GSettings"][::std::mem::size_of::<_GSettings>() - 32usize];
     ["Alignment of _GSettings"][::std::mem::align_of::<_GSettings>() - 8usize];
@@ -38230,6 +38557,7 @@ pub struct _GSimpleActionGroup {
     pub priv_: *mut GSimpleActionGroupPrivate,
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of _GSimpleActionGroup"][::std::mem::size_of::<_GSimpleActionGroup>() - 32usize];
     ["Alignment of _GSimpleActionGroup"][::std::mem::align_of::<_GSimpleActionGroup>() - 8usize];
@@ -38245,6 +38573,7 @@ pub struct _GSimpleActionGroupClass {
     pub padding: [gpointer; 12usize],
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of _GSimpleActionGroupClass"]
         [::std::mem::size_of::<_GSimpleActionGroupClass>() - 232usize];
@@ -38476,6 +38805,7 @@ pub struct _GSimpleProxyResolver {
     pub priv_: *mut GSimpleProxyResolverPrivate,
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of _GSimpleProxyResolver"][::std::mem::size_of::<_GSimpleProxyResolver>() - 32usize];
     ["Alignment of _GSimpleProxyResolver"]
@@ -38496,6 +38826,7 @@ pub struct _GSimpleProxyResolverClass {
     pub _g_reserved5: ::std::option::Option<unsafe extern "C" fn()>,
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of _GSimpleProxyResolverClass"]
         [::std::mem::size_of::<_GSimpleProxyResolverClass>() - 176usize];
@@ -38565,6 +38896,7 @@ pub struct _GSocketClass {
     pub _g_reserved10: ::std::option::Option<unsafe extern "C" fn()>,
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of _GSocketClass"][::std::mem::size_of::<_GSocketClass>() - 216usize];
     ["Alignment of _GSocketClass"][::std::mem::align_of::<_GSocketClass>() - 8usize];
@@ -38598,6 +38930,7 @@ pub struct _GSocket {
     pub priv_: *mut GSocketPrivate,
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of _GSocket"][::std::mem::size_of::<_GSocket>() - 32usize];
     ["Alignment of _GSocket"][::std::mem::align_of::<_GSocket>() - 8usize];
@@ -38994,6 +39327,7 @@ pub struct _GSocketClientClass {
     pub _g_reserved4: ::std::option::Option<unsafe extern "C" fn()>,
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of _GSocketClientClass"][::std::mem::size_of::<_GSocketClientClass>() - 176usize];
     ["Alignment of _GSocketClientClass"][::std::mem::align_of::<_GSocketClientClass>() - 8usize];
@@ -39017,6 +39351,7 @@ pub struct _GSocketClient {
     pub priv_: *mut GSocketClientPrivate,
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of _GSocketClient"][::std::mem::size_of::<_GSocketClient>() - 32usize];
     ["Alignment of _GSocketClient"][::std::mem::align_of::<_GSocketClient>() - 8usize];
@@ -39220,6 +39555,7 @@ pub struct _GSocketConnectableIface {
     >,
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of _GSocketConnectableIface"]
         [::std::mem::size_of::<_GSocketConnectableIface>() - 40usize];
@@ -39269,6 +39605,7 @@ pub struct _GSocketConnectionClass {
     pub _g_reserved6: ::std::option::Option<unsafe extern "C" fn()>,
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of _GSocketConnectionClass"]
         [::std::mem::size_of::<_GSocketConnectionClass>() - 304usize];
@@ -39296,6 +39633,7 @@ pub struct _GSocketConnection {
     pub priv_: *mut GSocketConnectionPrivate,
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of _GSocketConnection"][::std::mem::size_of::<_GSocketConnection>() - 40usize];
     ["Alignment of _GSocketConnection"][::std::mem::align_of::<_GSocketConnection>() - 8usize];
@@ -39406,6 +39744,7 @@ pub struct _GSocketControlMessageClass {
     pub _g_reserved5: ::std::option::Option<unsafe extern "C" fn()>,
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of _GSocketControlMessageClass"]
         [::std::mem::size_of::<_GSocketControlMessageClass>() - 216usize];
@@ -39441,6 +39780,7 @@ pub struct _GSocketControlMessage {
     pub priv_: *mut GSocketControlMessagePrivate,
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of _GSocketControlMessage"][::std::mem::size_of::<_GSocketControlMessage>() - 32usize];
     ["Alignment of _GSocketControlMessage"]
@@ -39503,6 +39843,7 @@ pub struct _GSocketListenerClass {
     pub _g_reserved6: ::std::option::Option<unsafe extern "C" fn()>,
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of _GSocketListenerClass"][::std::mem::size_of::<_GSocketListenerClass>() - 192usize];
     ["Alignment of _GSocketListenerClass"]
@@ -39531,6 +39872,7 @@ pub struct _GSocketListener {
     pub priv_: *mut GSocketListenerPrivate,
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of _GSocketListener"][::std::mem::size_of::<_GSocketListener>() - 32usize];
     ["Alignment of _GSocketListener"][::std::mem::align_of::<_GSocketListener>() - 8usize];
@@ -39662,6 +40004,7 @@ pub struct _GSocketServiceClass {
     pub _g_reserved6: ::std::option::Option<unsafe extern "C" fn()>,
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of _GSocketServiceClass"][::std::mem::size_of::<_GSocketServiceClass>() - 248usize];
     ["Alignment of _GSocketServiceClass"][::std::mem::align_of::<_GSocketServiceClass>() - 8usize];
@@ -39689,6 +40032,7 @@ pub struct _GSocketService {
     pub priv_: *mut GSocketServicePrivate,
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of _GSocketService"][::std::mem::size_of::<_GSocketService>() - 40usize];
     ["Alignment of _GSocketService"][::std::mem::align_of::<_GSocketService>() - 8usize];
@@ -40188,6 +40532,7 @@ pub struct _GTcpConnectionClass {
     pub parent_class: GSocketConnectionClass,
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of _GTcpConnectionClass"][::std::mem::size_of::<_GTcpConnectionClass>() - 304usize];
     ["Alignment of _GTcpConnectionClass"][::std::mem::align_of::<_GTcpConnectionClass>() - 8usize];
@@ -40201,6 +40546,7 @@ pub struct _GTcpConnection {
     pub priv_: *mut GTcpConnectionPrivate,
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of _GTcpConnection"][::std::mem::size_of::<_GTcpConnection>() - 48usize];
     ["Alignment of _GTcpConnection"][::std::mem::align_of::<_GTcpConnection>() - 8usize];
@@ -40234,6 +40580,7 @@ pub struct _GTcpWrapperConnectionClass {
     pub parent_class: GTcpConnectionClass,
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of _GTcpWrapperConnectionClass"]
         [::std::mem::size_of::<_GTcpWrapperConnectionClass>() - 304usize];
@@ -40249,6 +40596,7 @@ pub struct _GTcpWrapperConnection {
     pub priv_: *mut GTcpWrapperConnectionPrivate,
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of _GTcpWrapperConnection"][::std::mem::size_of::<_GTcpWrapperConnection>() - 56usize];
     ["Alignment of _GTcpWrapperConnection"]
@@ -40362,6 +40710,7 @@ pub struct _GThreadedSocketServiceClass {
     pub _g_reserved5: ::std::option::Option<unsafe extern "C" fn()>,
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of _GThreadedSocketServiceClass"]
         [::std::mem::size_of::<_GThreadedSocketServiceClass>() - 296usize];
@@ -40389,6 +40738,7 @@ pub struct _GThreadedSocketService {
     pub priv_: *mut GThreadedSocketServicePrivate,
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of _GThreadedSocketService"][::std::mem::size_of::<_GThreadedSocketService>() - 48usize];
     ["Alignment of _GThreadedSocketService"]
@@ -40430,6 +40780,7 @@ pub struct _GTlsBackendInterface {
     pub get_dtls_server_connection_type: ::std::option::Option<unsafe extern "C" fn() -> GType>,
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of _GTlsBackendInterface"][::std::mem::size_of::<_GTlsBackendInterface>() - 88usize];
     ["Alignment of _GTlsBackendInterface"]
@@ -40508,6 +40859,7 @@ pub struct _GTlsCertificate {
     pub priv_: *mut GTlsCertificatePrivate,
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of _GTlsCertificate"][::std::mem::size_of::<_GTlsCertificate>() - 32usize];
     ["Alignment of _GTlsCertificate"][::std::mem::align_of::<_GTlsCertificate>() - 8usize];
@@ -40530,6 +40882,7 @@ pub struct _GTlsCertificateClass {
     pub padding: [gpointer; 8usize],
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of _GTlsCertificateClass"][::std::mem::size_of::<_GTlsCertificateClass>() - 208usize];
     ["Alignment of _GTlsCertificateClass"]
@@ -40640,6 +40993,7 @@ pub struct _GTlsConnection {
     pub priv_: *mut GTlsConnectionPrivate,
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of _GTlsConnection"][::std::mem::size_of::<_GTlsConnection>() - 40usize];
     ["Alignment of _GTlsConnection"][::std::mem::align_of::<_GTlsConnection>() - 8usize];
@@ -40695,6 +41049,7 @@ pub struct _GTlsConnectionClass {
     pub padding: [gpointer; 6usize],
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of _GTlsConnectionClass"][::std::mem::size_of::<_GTlsConnectionClass>() - 352usize];
     ["Alignment of _GTlsConnectionClass"][::std::mem::align_of::<_GTlsConnectionClass>() - 8usize];
@@ -40847,6 +41202,7 @@ pub struct _GTlsClientConnectionInterface {
     >,
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of _GTlsClientConnectionInterface"]
         [::std::mem::size_of::<_GTlsClientConnectionInterface>() - 24usize];
@@ -40921,6 +41277,7 @@ pub struct _GTlsDatabase {
     pub priv_: *mut GTlsDatabasePrivate,
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of _GTlsDatabase"][::std::mem::size_of::<_GTlsDatabase>() - 32usize];
     ["Alignment of _GTlsDatabase"][::std::mem::align_of::<_GTlsDatabase>() - 8usize];
@@ -41058,6 +41415,7 @@ pub struct _GTlsDatabaseClass {
     pub padding: [gpointer; 16usize],
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of _GTlsDatabaseClass"][::std::mem::size_of::<_GTlsDatabaseClass>() - 368usize];
     ["Alignment of _GTlsDatabaseClass"][::std::mem::align_of::<_GTlsDatabaseClass>() - 8usize];
@@ -41233,6 +41591,7 @@ pub struct _GTlsFileDatabaseInterface {
     pub padding: [gpointer; 8usize],
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of _GTlsFileDatabaseInterface"]
         [::std::mem::size_of::<_GTlsFileDatabaseInterface>() - 80usize];
@@ -41266,6 +41625,7 @@ pub struct _GTlsInteraction {
     pub priv_: *mut GTlsInteractionPrivate,
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of _GTlsInteraction"][::std::mem::size_of::<_GTlsInteraction>() - 32usize];
     ["Alignment of _GTlsInteraction"][::std::mem::align_of::<_GTlsInteraction>() - 8usize];
@@ -41331,6 +41691,7 @@ pub struct _GTlsInteractionClass {
     pub padding: [gpointer; 21usize],
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of _GTlsInteractionClass"][::std::mem::size_of::<_GTlsInteractionClass>() - 352usize];
     ["Alignment of _GTlsInteractionClass"]
@@ -41436,6 +41797,7 @@ pub struct _GTlsPassword {
     pub priv_: *mut GTlsPasswordPrivate,
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of _GTlsPassword"][::std::mem::size_of::<_GTlsPassword>() - 32usize];
     ["Alignment of _GTlsPassword"][::std::mem::align_of::<_GTlsPassword>() - 8usize];
@@ -41464,6 +41826,7 @@ pub struct _GTlsPasswordClass {
     pub padding: [gpointer; 4usize],
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of _GTlsPasswordClass"][::std::mem::size_of::<_GTlsPasswordClass>() - 192usize];
     ["Alignment of _GTlsPasswordClass"][::std::mem::align_of::<_GTlsPasswordClass>() - 8usize];
@@ -41533,6 +41896,7 @@ pub struct _GTlsServerConnectionInterface {
     pub g_iface: GTypeInterface,
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of _GTlsServerConnectionInterface"]
         [::std::mem::size_of::<_GTlsServerConnectionInterface>() - 16usize];
@@ -41569,6 +41933,7 @@ pub struct _GUnixConnectionClass {
     pub parent_class: GSocketConnectionClass,
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of _GUnixConnectionClass"][::std::mem::size_of::<_GUnixConnectionClass>() - 304usize];
     ["Alignment of _GUnixConnectionClass"]
@@ -41583,6 +41948,7 @@ pub struct _GUnixConnection {
     pub priv_: *mut GUnixConnectionPrivate,
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of _GUnixConnection"][::std::mem::size_of::<_GUnixConnection>() - 48usize];
     ["Alignment of _GUnixConnection"][::std::mem::align_of::<_GUnixConnection>() - 8usize];
@@ -41672,6 +42038,7 @@ pub struct _GUnixCredentialsMessageClass {
     pub _g_reserved2: ::std::option::Option<unsafe extern "C" fn()>,
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of _GUnixCredentialsMessageClass"]
         [::std::mem::size_of::<_GUnixCredentialsMessageClass>() - 232usize];
@@ -41691,6 +42058,7 @@ pub struct _GUnixCredentialsMessage {
     pub priv_: *mut GUnixCredentialsMessagePrivate,
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of _GUnixCredentialsMessage"]
         [::std::mem::size_of::<_GUnixCredentialsMessage>() - 40usize];
@@ -41742,6 +42110,7 @@ pub struct _GUnixFDListClass {
     pub _g_reserved5: ::std::option::Option<unsafe extern "C" fn()>,
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of _GUnixFDListClass"][::std::mem::size_of::<_GUnixFDListClass>() - 176usize];
     ["Alignment of _GUnixFDListClass"][::std::mem::align_of::<_GUnixFDListClass>() - 8usize];
@@ -41765,6 +42134,7 @@ pub struct _GUnixFDList {
     pub priv_: *mut GUnixFDListPrivate,
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of _GUnixFDList"][::std::mem::size_of::<_GUnixFDList>() - 32usize];
     ["Alignment of _GUnixFDList"][::std::mem::align_of::<_GUnixFDList>() - 8usize];
@@ -41820,6 +42190,7 @@ pub struct _GUnixSocketAddress {
     pub priv_: *mut GUnixSocketAddressPrivate,
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of _GUnixSocketAddress"][::std::mem::size_of::<_GUnixSocketAddress>() - 32usize];
     ["Alignment of _GUnixSocketAddress"][::std::mem::align_of::<_GUnixSocketAddress>() - 8usize];
@@ -41834,6 +42205,7 @@ pub struct _GUnixSocketAddressClass {
     pub parent_class: GSocketAddressClass,
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of _GUnixSocketAddressClass"]
         [::std::mem::size_of::<_GUnixSocketAddressClass>() - 160usize];
@@ -41894,6 +42266,7 @@ pub struct _GVfs {
     pub parent_instance: GObject,
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of _GVfs"][::std::mem::size_of::<_GVfs>() - 24usize];
     ["Alignment of _GVfs"][::std::mem::align_of::<_GVfs>() - 8usize];
@@ -41965,6 +42338,7 @@ pub struct _GVfsClass {
     pub _g_reserved6: ::std::option::Option<unsafe extern "C" fn()>,
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of _GVfsClass"][::std::mem::size_of::<_GVfsClass>() - 272usize];
     ["Alignment of _GVfsClass"][::std::mem::align_of::<_GVfsClass>() - 8usize];
@@ -42141,6 +42515,7 @@ pub struct _GVolumeIface {
         ::std::option::Option<unsafe extern "C" fn(volume: *mut GVolume) -> *mut GIcon>,
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of _GVolumeIface"][::std::mem::size_of::<_GVolumeIface>() - 184usize];
     ["Alignment of _GVolumeIface"][::std::mem::align_of::<_GVolumeIface>() - 8usize];
@@ -42292,6 +42667,7 @@ pub struct _GZlibCompressorClass {
     pub parent_class: GObjectClass,
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of _GZlibCompressorClass"][::std::mem::size_of::<_GZlibCompressorClass>() - 136usize];
     ["Alignment of _GZlibCompressorClass"]
@@ -42330,6 +42706,7 @@ pub struct _GZlibDecompressorClass {
     pub parent_class: GObjectClass,
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of _GZlibDecompressorClass"]
         [::std::mem::size_of::<_GZlibDecompressorClass>() - 136usize];
@@ -42929,6 +43306,7 @@ pub struct _VipsBuf {
     pub dynamic: gboolean,
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of _VipsBuf"][::std::mem::size_of::<_VipsBuf>() - 32usize];
     ["Alignment of _VipsBuf"][::std::mem::align_of::<_VipsBuf>() - 8usize];
@@ -43038,6 +43416,7 @@ pub struct _VipsDbuf {
     pub write_point: size_t,
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of _VipsDbuf"][::std::mem::size_of::<_VipsDbuf>() - 32usize];
     ["Alignment of _VipsDbuf"][::std::mem::align_of::<_VipsDbuf>() - 8usize];
@@ -43900,6 +44279,7 @@ pub struct _VipsArgument {
     pub pspec: *mut GParamSpec,
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of _VipsArgument"][::std::mem::size_of::<_VipsArgument>() - 8usize];
     ["Alignment of _VipsArgument"][::std::mem::align_of::<_VipsArgument>() - 8usize];
@@ -43917,6 +44297,7 @@ pub struct _VipsArgumentClass {
     pub offset: guint,
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of _VipsArgumentClass"][::std::mem::size_of::<_VipsArgumentClass>() - 32usize];
     ["Alignment of _VipsArgumentClass"][::std::mem::align_of::<_VipsArgumentClass>() - 8usize];
@@ -43943,6 +44324,7 @@ pub struct _VipsArgumentInstance {
     pub invalidate_id: gulong,
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of _VipsArgumentInstance"][::std::mem::size_of::<_VipsArgumentInstance>() - 48usize];
     ["Alignment of _VipsArgumentInstance"]
@@ -44061,6 +44443,7 @@ pub struct _VipsObject {
     pub local_memory: size_t,
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of _VipsObject"][::std::mem::size_of::<_VipsObject>() - 80usize];
     ["Alignment of _VipsObject"][::std::mem::align_of::<_VipsObject>() - 8usize];
@@ -44133,6 +44516,7 @@ pub struct _VipsObjectClass {
     pub _vips_reserved4: ::std::option::Option<unsafe extern "C" fn()>,
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of _VipsObjectClass"][::std::mem::size_of::<_VipsObjectClass>() - 328usize];
     ["Alignment of _VipsObjectClass"][::std::mem::align_of::<_VipsObjectClass>() - 8usize];
@@ -44409,6 +44793,7 @@ pub struct _VipsThing {
     pub i: ::std::os::raw::c_int,
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of _VipsThing"][::std::mem::size_of::<_VipsThing>() - 4usize];
     ["Alignment of _VipsThing"][::std::mem::align_of::<_VipsThing>() - 4usize];
@@ -44435,6 +44820,7 @@ pub struct _VipsArea {
     pub sizeof_type: size_t,
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of _VipsArea"][::std::mem::size_of::<_VipsArea>() - 64usize];
     ["Alignment of _VipsArea"][::std::mem::align_of::<_VipsArea>() - 8usize];
@@ -44516,6 +44902,7 @@ pub struct _VipsSaveString {
     pub s: *mut ::std::os::raw::c_char,
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of _VipsSaveString"][::std::mem::size_of::<_VipsSaveString>() - 8usize];
     ["Alignment of _VipsSaveString"][::std::mem::align_of::<_VipsSaveString>() - 8usize];
@@ -44528,6 +44915,7 @@ pub struct _VipsRefString {
     pub area: VipsArea,
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of _VipsRefString"][::std::mem::size_of::<_VipsRefString>() - 64usize];
     ["Alignment of _VipsRefString"][::std::mem::align_of::<_VipsRefString>() - 8usize];
@@ -44558,6 +44946,7 @@ pub struct _VipsBlob {
     pub area: VipsArea,
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of _VipsBlob"][::std::mem::size_of::<_VipsBlob>() - 64usize];
     ["Alignment of _VipsBlob"][::std::mem::align_of::<_VipsBlob>() - 8usize];
@@ -44600,6 +44989,7 @@ pub struct _VipsArrayDouble {
     pub area: VipsArea,
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of _VipsArrayDouble"][::std::mem::size_of::<_VipsArrayDouble>() - 64usize];
     ["Alignment of _VipsArrayDouble"][::std::mem::align_of::<_VipsArrayDouble>() - 8usize];
@@ -44636,6 +45026,7 @@ pub struct _VipsArrayInt {
     pub area: VipsArea,
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of _VipsArrayInt"][::std::mem::size_of::<_VipsArrayInt>() - 64usize];
     ["Alignment of _VipsArrayInt"][::std::mem::align_of::<_VipsArrayInt>() - 8usize];
@@ -44671,6 +45062,7 @@ pub struct _VipsArrayImage {
     pub area: VipsArea,
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of _VipsArrayImage"][::std::mem::size_of::<_VipsArrayImage>() - 64usize];
     ["Alignment of _VipsArrayImage"][::std::mem::align_of::<_VipsArrayImage>() - 8usize];
@@ -44802,6 +45194,7 @@ pub struct _VipsConnection {
     pub filename: *mut ::std::os::raw::c_char,
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of _VipsConnection"][::std::mem::size_of::<_VipsConnection>() - 104usize];
     ["Alignment of _VipsConnection"][::std::mem::align_of::<_VipsConnection>() - 8usize];
@@ -44823,6 +45216,7 @@ pub struct _VipsConnectionClass {
     pub parent_class: VipsObjectClass,
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of _VipsConnectionClass"][::std::mem::size_of::<_VipsConnectionClass>() - 328usize];
     ["Alignment of _VipsConnectionClass"][::std::mem::align_of::<_VipsConnectionClass>() - 8usize];
@@ -44861,6 +45255,7 @@ pub struct _VipsSource {
     pub mmap_length: size_t,
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of _VipsSource"][::std::mem::size_of::<_VipsSource>() - 184usize];
     ["Alignment of _VipsSource"][::std::mem::align_of::<_VipsSource>() - 8usize];
@@ -44906,6 +45301,7 @@ pub struct _VipsSourceClass {
     >,
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of _VipsSourceClass"][::std::mem::size_of::<_VipsSourceClass>() - 344usize];
     ["Alignment of _VipsSourceClass"][::std::mem::align_of::<_VipsSourceClass>() - 8usize];
@@ -45004,6 +45400,7 @@ pub struct _VipsSourceCustom {
     pub parent_object: VipsSource,
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of _VipsSourceCustom"][::std::mem::size_of::<_VipsSourceCustom>() - 184usize];
     ["Alignment of _VipsSourceCustom"][::std::mem::align_of::<_VipsSourceCustom>() - 8usize];
@@ -45031,6 +45428,7 @@ pub struct _VipsSourceCustomClass {
     >,
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of _VipsSourceCustomClass"][::std::mem::size_of::<_VipsSourceCustomClass>() - 360usize];
     ["Alignment of _VipsSourceCustomClass"]
@@ -45056,6 +45454,7 @@ pub struct _VipsGInputStream {
     pub source: *mut VipsSource,
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of _VipsGInputStream"][::std::mem::size_of::<_VipsGInputStream>() - 40usize];
     ["Alignment of _VipsGInputStream"][::std::mem::align_of::<_VipsGInputStream>() - 8usize];
@@ -45071,6 +45470,7 @@ pub struct _VipsGInputStreamClass {
     pub parent_class: GInputStreamClass,
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of _VipsGInputStreamClass"][::std::mem::size_of::<_VipsGInputStreamClass>() - 248usize];
     ["Alignment of _VipsGInputStreamClass"]
@@ -45094,6 +45494,7 @@ pub struct _VipsSourceGInputStream {
     pub info: *mut GFileInfo,
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of _VipsSourceGInputStream"]
         [::std::mem::size_of::<_VipsSourceGInputStream>() - 208usize];
@@ -45115,6 +45516,7 @@ pub struct _VipsSourceGInputStreamClass {
     pub parent_class: VipsSourceClass,
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of _VipsSourceGInputStreamClass"]
         [::std::mem::size_of::<_VipsSourceGInputStreamClass>() - 344usize];
@@ -45146,6 +45548,7 @@ pub struct _VipsTarget {
     pub delete_on_close_filename: *mut ::std::os::raw::c_char,
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of _VipsTarget"][::std::mem::size_of::<_VipsTarget>() - 8656usize];
     ["Alignment of _VipsTarget"][::std::mem::align_of::<_VipsTarget>() - 8usize];
@@ -45199,6 +45602,7 @@ pub struct _VipsTargetClass {
     >,
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of _VipsTargetClass"][::std::mem::size_of::<_VipsTargetClass>() - 368usize];
     ["Alignment of _VipsTargetClass"][::std::mem::align_of::<_VipsTargetClass>() - 8usize];
@@ -45295,6 +45699,7 @@ pub struct _VipsTargetCustom {
     pub parent_object: VipsTarget,
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of _VipsTargetCustom"][::std::mem::size_of::<_VipsTargetCustom>() - 8656usize];
     ["Alignment of _VipsTargetCustom"][::std::mem::align_of::<_VipsTargetCustom>() - 8usize];
@@ -45333,6 +45738,7 @@ pub struct _VipsTargetCustomClass {
     >,
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of _VipsTargetCustomClass"][::std::mem::size_of::<_VipsTargetCustomClass>() - 408usize];
     ["Alignment of _VipsTargetCustomClass"]
@@ -45368,6 +45774,7 @@ pub struct _VipsSbuf {
     pub line: [::std::os::raw::c_uchar; 4097usize],
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of _VipsSbuf"][::std::mem::size_of::<_VipsSbuf>() - 8296usize];
     ["Alignment of _VipsSbuf"][::std::mem::align_of::<_VipsSbuf>() - 8usize];
@@ -45389,6 +45796,7 @@ pub struct _VipsSbufClass {
     pub parent_class: VipsObjectClass,
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of _VipsSbufClass"][::std::mem::size_of::<_VipsSbufClass>() - 328usize];
     ["Alignment of _VipsSbufClass"][::std::mem::align_of::<_VipsSbufClass>() - 8usize];
@@ -45438,6 +45846,7 @@ pub struct _VipsRect {
     pub height: ::std::os::raw::c_int,
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of _VipsRect"][::std::mem::size_of::<_VipsRect>() - 16usize];
     ["Alignment of _VipsRect"][::std::mem::align_of::<_VipsRect>() - 4usize];
@@ -45493,6 +45902,7 @@ pub struct VipsWindow {
     pub length: size_t,
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of VipsWindow"][::std::mem::size_of::<VipsWindow>() - 48usize];
     ["Alignment of VipsWindow"][::std::mem::align_of::<VipsWindow>() - 8usize];
@@ -45519,6 +45929,7 @@ pub struct VipsBufferThread {
     pub thread: *mut GThread,
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of VipsBufferThread"][::std::mem::size_of::<VipsBufferThread>() - 16usize];
     ["Alignment of VipsBufferThread"][::std::mem::align_of::<VipsBufferThread>() - 8usize];
@@ -45538,6 +45949,7 @@ pub struct _VipsBufferCache {
     pub n_reserve: ::std::os::raw::c_int,
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of _VipsBufferCache"][::std::mem::size_of::<_VipsBufferCache>() - 48usize];
     ["Alignment of _VipsBufferCache"][::std::mem::align_of::<_VipsBufferCache>() - 8usize];
@@ -45567,6 +45979,7 @@ pub struct _VipsBuffer {
     pub bsize: size_t,
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of _VipsBuffer"][::std::mem::size_of::<_VipsBuffer>() - 64usize];
     ["Alignment of _VipsBuffer"][::std::mem::align_of::<_VipsBuffer>() - 8usize];
@@ -45796,6 +46209,7 @@ pub struct _VipsRegion {
     pub invalid: gboolean,
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of _VipsRegion"][::std::mem::size_of::<_VipsRegion>() - 168usize];
     ["Alignment of _VipsRegion"][::std::mem::align_of::<_VipsRegion>() - 8usize];
@@ -45822,6 +46236,7 @@ pub struct _VipsRegionClass {
     pub parent_class: VipsObjectClass,
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of _VipsRegionClass"][::std::mem::size_of::<_VipsRegionClass>() - 328usize];
     ["Alignment of _VipsRegionClass"][::std::mem::align_of::<_VipsRegionClass>() - 8usize];
@@ -46030,6 +46445,7 @@ pub struct _VipsProgress {
     pub start: *mut GTimer,
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of _VipsProgress"][::std::mem::size_of::<_VipsProgress>() - 48usize];
     ["Alignment of _VipsProgress"][::std::mem::align_of::<_VipsProgress>() - 8usize];
@@ -46100,6 +46516,7 @@ pub struct _VipsImage {
     pub delete_on_close_filename: *mut ::std::os::raw::c_char,
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of _VipsImage"][::std::mem::size_of::<_VipsImage>() - 392usize];
     ["Alignment of _VipsImage"][::std::mem::align_of::<_VipsImage>() - 8usize];
@@ -46275,6 +46692,7 @@ pub struct _VipsImageClass {
     >,
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of _VipsImageClass"][::std::mem::size_of::<_VipsImageClass>() - 376usize];
     ["Alignment of _VipsImageClass"][::std::mem::align_of::<_VipsImageClass>() - 8usize];
@@ -46977,6 +47395,7 @@ pub struct _VipsFormat {
     pub parent_object: VipsObject,
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of _VipsFormat"][::std::mem::size_of::<_VipsFormat>() - 80usize];
     ["Alignment of _VipsFormat"][::std::mem::align_of::<_VipsFormat>() - 8usize];
@@ -47016,6 +47435,7 @@ pub struct _VipsFormatClass {
     pub suffs: *mut *const ::std::os::raw::c_char,
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of _VipsFormatClass"][::std::mem::size_of::<_VipsFormatClass>() - 384usize];
     ["Alignment of _VipsFormatClass"][::std::mem::align_of::<_VipsFormatClass>() - 8usize];
@@ -47187,6 +47607,7 @@ pub struct _VipsInterpolate {
     pub parent_object: VipsObject,
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of _VipsInterpolate"][::std::mem::size_of::<_VipsInterpolate>() - 80usize];
     ["Alignment of _VipsInterpolate"][::std::mem::align_of::<_VipsInterpolate>() - 8usize];
@@ -47217,6 +47638,7 @@ pub struct _VipsInterpolateClass {
     pub window_offset: ::std::os::raw::c_int,
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of _VipsInterpolateClass"][::std::mem::size_of::<_VipsInterpolateClass>() - 368usize];
     ["Alignment of _VipsInterpolateClass"]
@@ -47278,6 +47700,7 @@ pub struct VipsSemaphore {
     pub cond: GCond,
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of VipsSemaphore"][::std::mem::size_of::<VipsSemaphore>() - 40usize];
     ["Alignment of VipsSemaphore"][::std::mem::align_of::<VipsSemaphore>() - 8usize];
@@ -47361,6 +47784,7 @@ pub struct _VipsThreadState {
     pub stall: gboolean,
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of _VipsThreadState"][::std::mem::size_of::<_VipsThreadState>() - 144usize];
     ["Alignment of _VipsThreadState"][::std::mem::align_of::<_VipsThreadState>() - 8usize];
@@ -47390,6 +47814,7 @@ pub struct _VipsThreadStateClass {
     pub parent_class: VipsObjectClass,
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of _VipsThreadStateClass"][::std::mem::size_of::<_VipsThreadStateClass>() - 328usize];
     ["Alignment of _VipsThreadStateClass"]
@@ -47783,6 +48208,7 @@ pub struct _VipsOperation {
     pub pixels: ::std::os::raw::c_int,
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of _VipsOperation"][::std::mem::size_of::<_VipsOperation>() - 96usize];
     ["Alignment of _VipsOperation"][::std::mem::align_of::<_VipsOperation>() - 8usize];
@@ -47809,6 +48235,7 @@ pub struct _VipsOperationClass {
     pub invalidate: ::std::option::Option<unsafe extern "C" fn(operation: *mut VipsOperation)>,
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of _VipsOperationClass"][::std::mem::size_of::<_VipsOperationClass>() - 360usize];
     ["Alignment of _VipsOperationClass"][::std::mem::align_of::<_VipsOperationClass>() - 8usize];
@@ -47935,6 +48362,7 @@ pub struct _VipsForeign {
     pub parent_object: VipsOperation,
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of _VipsForeign"][::std::mem::size_of::<_VipsForeign>() - 96usize];
     ["Alignment of _VipsForeign"][::std::mem::align_of::<_VipsForeign>() - 8usize];
@@ -47950,6 +48378,7 @@ pub struct _VipsForeignClass {
     pub suffs: *mut *const ::std::os::raw::c_char,
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of _VipsForeignClass"][::std::mem::size_of::<_VipsForeignClass>() - 376usize];
     ["Alignment of _VipsForeignClass"][::std::mem::align_of::<_VipsForeignClass>() - 8usize];
@@ -48002,6 +48431,7 @@ pub struct _VipsForeignLoad {
     pub revalidate: gboolean,
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of _VipsForeignLoad"][::std::mem::size_of::<_VipsForeignLoad>() - 152usize];
     ["Alignment of _VipsForeignLoad"][::std::mem::align_of::<_VipsForeignLoad>() - 8usize];
@@ -48058,6 +48488,7 @@ pub struct _VipsForeignLoadClass {
     >,
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of _VipsForeignLoadClass"][::std::mem::size_of::<_VipsForeignLoadClass>() - 432usize];
     ["Alignment of _VipsForeignLoadClass"]
@@ -48159,6 +48590,7 @@ pub struct _VipsForeignSave {
     pub ready: *mut VipsImage,
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of _VipsForeignSave"][::std::mem::size_of::<_VipsForeignSave>() - 144usize];
     ["Alignment of _VipsForeignSave"][::std::mem::align_of::<_VipsForeignSave>() - 8usize];
@@ -48189,6 +48621,7 @@ pub struct _VipsForeignSaveClass {
     pub coding: VipsForeignCoding,
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of _VipsForeignSaveClass"][::std::mem::size_of::<_VipsForeignSaveClass>() - 400usize];
     ["Alignment of _VipsForeignSaveClass"]
@@ -52056,6 +52489,7 @@ pub struct im__INTMASK {
     pub filename: *mut ::std::os::raw::c_char,
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of im__INTMASK"][::std::mem::size_of::<im__INTMASK>() - 32usize];
     ["Alignment of im__INTMASK"][::std::mem::align_of::<im__INTMASK>() - 8usize];
@@ -52079,6 +52513,7 @@ pub struct im__DOUBLEMASK {
     pub filename: *mut ::std::os::raw::c_char,
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of im__DOUBLEMASK"][::std::mem::size_of::<im__DOUBLEMASK>() - 40usize];
     ["Alignment of im__DOUBLEMASK"][::std::mem::align_of::<im__DOUBLEMASK>() - 8usize];
@@ -54788,6 +55223,7 @@ pub struct im_colour_temperature {
     pub Z0: f64,
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of im_colour_temperature"][::std::mem::size_of::<im_colour_temperature>() - 24usize];
     ["Alignment of im_colour_temperature"]
@@ -54992,6 +55428,7 @@ pub struct VipsVector {
     pub compiled: gboolean,
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of VipsVector"][::std::mem::size_of::<VipsVector>() - 176usize];
     ["Alignment of VipsVector"][::std::mem::align_of::<VipsVector>() - 8usize];
@@ -55024,6 +55461,7 @@ pub struct VipsExecutor {
     pub vector: *mut VipsVector,
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of VipsExecutor"][::std::mem::size_of::<VipsExecutor>() - 8usize];
     ["Alignment of VipsExecutor"][::std::mem::align_of::<VipsExecutor>() - 8usize];
@@ -55183,6 +55621,7 @@ pub struct im_type_desc {
     pub dest: im_dest_obj_fn,
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of im_type_desc"][::std::mem::size_of::<im_type_desc>() - 32usize];
     ["Alignment of im_type_desc"][::std::mem::align_of::<im_type_desc>() - 8usize];
@@ -55202,6 +55641,7 @@ pub struct im_arg_desc {
     pub print: im_print_obj_fn,
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of im_arg_desc"][::std::mem::size_of::<im_arg_desc>() - 24usize];
     ["Alignment of im_arg_desc"][::std::mem::align_of::<im_arg_desc>() - 8usize];
@@ -55228,6 +55668,7 @@ pub struct im_function {
     pub argv: *mut im_arg_desc,
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of im_function"][::std::mem::size_of::<im_function>() - 48usize];
     ["Alignment of im_function"][::std::mem::align_of::<im_function>() - 8usize];
@@ -55246,6 +55687,7 @@ pub struct im_package {
     pub table: *mut *mut im_function,
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of im_package"][::std::mem::size_of::<im_package>() - 24usize];
     ["Alignment of im_package"][::std::mem::align_of::<im_package>() - 8usize];
@@ -55260,6 +55702,7 @@ pub struct im_mask_object {
     pub mask: *mut ::std::os::raw::c_void,
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of im_mask_object"][::std::mem::size_of::<im_mask_object>() - 16usize];
     ["Alignment of im_mask_object"][::std::mem::align_of::<im_mask_object>() - 8usize];
@@ -55275,6 +55718,7 @@ pub struct im_doublevec_object {
     pub vec: *mut f64,
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of im_doublevec_object"][::std::mem::size_of::<im_doublevec_object>() - 16usize];
     ["Alignment of im_doublevec_object"][::std::mem::align_of::<im_doublevec_object>() - 8usize];
@@ -55290,6 +55734,7 @@ pub struct im_intvec_object {
     pub vec: *mut ::std::os::raw::c_int,
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of im_intvec_object"][::std::mem::size_of::<im_intvec_object>() - 16usize];
     ["Alignment of im_intvec_object"][::std::mem::align_of::<im_intvec_object>() - 8usize];
@@ -55304,6 +55749,7 @@ pub struct im_imagevec_object {
     pub vec: *mut *mut VipsImage,
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of im_imagevec_object"][::std::mem::size_of::<im_imagevec_object>() - 16usize];
     ["Alignment of im_imagevec_object"][::std::mem::align_of::<im_imagevec_object>() - 8usize];
@@ -55476,6 +55922,7 @@ pub struct IMAGE_BOX {
     pub chsel: ::std::os::raw::c_int,
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
+#[cfg(not(target_os = "windows"))]
 const _: () = {
     ["Size of IMAGE_BOX"][::std::mem::size_of::<IMAGE_BOX>() - 20usize];
     ["Alignment of IMAGE_BOX"][::std::mem::align_of::<IMAGE_BOX>() - 4usize];
@@ -56220,9 +56667,6 @@ unsafe extern "C" {
 }
 unsafe extern "C" {
     pub fn vips_free(buf: *mut ::std::os::raw::c_void) -> ::std::os::raw::c_int;
-}
-unsafe extern "C" {
-    pub fn vips_target_finish(target: *mut VipsTarget);
 }
 unsafe extern "C" {
     pub fn vips_cache_operation_lookup(operation: *mut VipsOperation) -> *mut VipsOperation;
